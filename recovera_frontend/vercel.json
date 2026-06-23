@@ -1,0 +1,8 @@
+{
+  "framework": "nextjs",
+  "functions": {
+    "app/api/dashboard/route.ts": { "maxDuration": 30 },
+    "app/api/copilot/route.ts":   { "maxDuration": 30 },
+    "app/api/health/route.ts":    { "maxDuration": 15 }
+  }
+}
