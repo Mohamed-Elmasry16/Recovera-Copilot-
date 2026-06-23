@@ -51,6 +51,7 @@ type CopilotChartData = {
 
 type NormalizedCopilotChart = {
   title: string;
+  chartType: 'bar' | 'bar_vertical' | 'line' | 'area' | 'pie';
   labels: string[];
   datasets: Array<{ label: string; key: string; data: number[]; tone: 'primary' | 'success' | 'accent' }>;
 };
@@ -1096,19 +1097,46 @@ function CopilotMessage({ message, onTogglePanel, onCopySql }: { message: ChatMe
 }
 
 
+const CHART_TYPE_LABELS: Record<NormalizedCopilotChart['chartType'], string> = {
+  bar: 'Distribution',
+  bar_vertical: 'Distribution',
+  line: 'Trend',
+  area: 'Trend',
+  pie: 'Breakdown'
+};
+
 function CopilotResponseChart({ chartData }: { chartData: CopilotChartData }) {
   const chart = normalizeChartForRender(chartData);
   if (!chart) return null;
 
+  const tooltipStyle = {
+    contentStyle: { border: '1px solid var(--line)', borderRadius: 14, background: 'var(--card-solid)', color: 'var(--text)', boxShadow: 'var(--shadow-soft)' },
+    formatter: (value: number, name: string) => [formatMetricValue(Number(value)), chart.datasets.find((d) => d.key === name)?.label || name],
+    labelStyle: { color: 'var(--text)', fontWeight: 800 }
+  };
+
   const rows = chart.labels.map((label, index) => {
     const row: Record<string, string | number> = { label };
-    chart.datasets.forEach((dataset) => {
-      row[dataset.key] = dataset.data[index] ?? 0;
-    });
+    chart.datasets.forEach((dataset) => { row[dataset.key] = dataset.data[index] ?? 0; });
     return row;
   });
 
-  const chartHeight = Math.min(440, Math.max(230, chart.labels.length * (chart.datasets.length > 1 ? 34 : 38) + 96));
+  // Pie data uses first dataset only
+  const pieData = chart.labels.map((label, index) => ({
+    name: label,
+    value: chart.datasets[0]?.data[index] ?? 0
+  }));
+
+  const isHorizontalBar = chart.chartType === 'bar';
+  const isVerticalBar = chart.chartType === 'bar_vertical';
+  const isLine = chart.chartType === 'line';
+  const isArea = chart.chartType === 'area';
+  const isPie = chart.chartType === 'pie';
+
+  const barChartHeight = Math.min(440, Math.max(230, chart.labels.length * (chart.datasets.length > 1 ? 34 : 38) + 96));
+  const verticalBarHeight = Math.min(380, Math.max(220, 80 + chart.labels.length * 44));
+  const lineAreaHeight = 260;
+  const pieHeight = 280;
 
   return (
     <section className="copilot-chart-card" dir="ltr" aria-label="Query result visualization">
@@ -1116,50 +1144,111 @@ function CopilotResponseChart({ chartData }: { chartData: CopilotChartData }) {
         <div>
           <strong>{chart.title}</strong>
           <span>•</span>
-          <em>Distribution</em>
+          <em>{CHART_TYPE_LABELS[chart.chartType]}</em>
         </div>
         <div className="copilot-chart-icons" aria-hidden="true"><Icon name="database" /><Icon name="trend" /></div>
       </header>
 
-      {chart.datasets.length > 1 && (
+      {chart.datasets.length > 1 && !isPie && (
         <div className="copilot-chart-legend">
           {chart.datasets.map((dataset) => <span key={dataset.key} className={dataset.tone}><i />{dataset.label}</span>)}
         </div>
       )}
 
-      <div className="copilot-chart-shell" style={{ height: chartHeight }}>
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={rows} layout="vertical" margin={{ top: 8, right: 18, left: 8, bottom: 8 }} barCategoryGap={chart.datasets.length > 1 ? 8 : 10}>
-            <CartesianGrid stroke="var(--chart-grid)" strokeDasharray="0" />
-            <XAxis
-              type="number"
-              tick={{ fill: 'var(--muted)', fontSize: 11 }}
-              tickLine={false}
-              axisLine={{ stroke: 'var(--line-strong)' }}
-              tickFormatter={(value) => compactNumber(Number(value))}
-            />
-            <YAxis
-              type="category"
-              dataKey="label"
-              width={144}
-              tick={{ fill: 'var(--muted)', fontSize: 11 }}
-              tickLine={false}
-              axisLine={false}
-              interval={0}
-              tickFormatter={(value) => truncateChartTick(value)}
-            />
-            <Tooltip
-              cursor={{ fill: 'rgba(99, 183, 239, 0.08)' }}
-              contentStyle={{ border: '1px solid var(--line)', borderRadius: 14, background: 'var(--card-solid)', color: 'var(--text)', boxShadow: 'var(--shadow-soft)' }}
-              formatter={(value, name) => [formatMetricValue(Number(value)), chart.datasets.find((dataset) => dataset.key === name)?.label || name]}
-              labelStyle={{ color: 'var(--text)', fontWeight: 800 }}
-            />
-            {chart.datasets.map((dataset) => (
-              <Bar key={dataset.key} dataKey={dataset.key} name={dataset.label} fill={`var(--copilot-chart-${dataset.tone})`} radius={[0, 4, 4, 0]} maxBarSize={24} />
-            ))}
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
+      {/* Horizontal Bar (default) */}
+      {isHorizontalBar && (
+        <div className="copilot-chart-shell" style={{ height: barChartHeight }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={rows} layout="vertical" margin={{ top: 8, right: 18, left: 8, bottom: 8 }} barCategoryGap={chart.datasets.length > 1 ? 8 : 10}>
+              <CartesianGrid stroke="var(--chart-grid)" strokeDasharray="0" />
+              <XAxis type="number" tick={{ fill: 'var(--muted)', fontSize: 11 }} tickLine={false} axisLine={{ stroke: 'var(--line-strong)' }} tickFormatter={(v) => compactNumber(Number(v))} />
+              <YAxis type="category" dataKey="label" width={144} tick={{ fill: 'var(--muted)', fontSize: 11 }} tickLine={false} axisLine={false} interval={0} tickFormatter={(v) => truncateChartTick(v)} />
+              <Tooltip cursor={{ fill: 'rgba(99,183,239,0.08)' }} {...tooltipStyle} />
+              {chart.datasets.map((dataset) => (
+                <Bar key={dataset.key} dataKey={dataset.key} name={dataset.label} fill={`var(--copilot-chart-${dataset.tone})`} radius={[0, 4, 4, 0]} maxBarSize={24} />
+              ))}
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      )}
+
+      {/* Vertical Bar */}
+      {isVerticalBar && (
+        <div className="copilot-chart-shell" style={{ height: verticalBarHeight }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={rows} margin={{ top: 12, right: 18, left: 0, bottom: 32 }} barCategoryGap={chart.datasets.length > 1 ? 8 : 10}>
+              <CartesianGrid vertical={false} stroke="var(--chart-grid)" strokeDasharray="3 5" />
+              <XAxis dataKey="label" tick={{ fill: 'var(--muted)', fontSize: 11 }} tickLine={false} axisLine={false} angle={-20} textAnchor="end" height={48} tickFormatter={(v) => truncateChartTick(v, 14)} />
+              <YAxis tick={{ fill: 'var(--muted)', fontSize: 11 }} tickLine={false} axisLine={false} width={52} tickFormatter={(v) => compactNumber(Number(v))} />
+              <Tooltip cursor={{ fill: 'rgba(99,183,239,0.08)' }} {...tooltipStyle} />
+              {chart.datasets.map((dataset) => (
+                <Bar key={dataset.key} dataKey={dataset.key} name={dataset.label} fill={`var(--copilot-chart-${dataset.tone})`} radius={[4, 4, 0, 0]} maxBarSize={32} />
+              ))}
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      )}
+
+      {/* Line Chart */}
+      {isLine && (
+        <div className="copilot-chart-shell" style={{ height: lineAreaHeight }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={rows} margin={{ top: 12, right: 18, left: 0, bottom: 8 }}>
+              <CartesianGrid vertical={false} stroke="var(--chart-grid)" strokeDasharray="3 5" />
+              <XAxis dataKey="label" tick={{ fill: 'var(--muted)', fontSize: 11 }} tickLine={false} axisLine={false} tickFormatter={(v) => truncateChartTick(v, 12)} />
+              <YAxis tick={{ fill: 'var(--muted)', fontSize: 11 }} tickLine={false} axisLine={false} width={52} tickFormatter={(v) => compactNumber(Number(v))} />
+              <Tooltip {...tooltipStyle} />
+              {chart.datasets.map((dataset) => (
+                <Line key={dataset.key} type="monotone" dataKey={dataset.key} name={dataset.label} stroke={`var(--copilot-chart-${dataset.tone})`} strokeWidth={2.5} dot={{ r: 3, fill: `var(--copilot-chart-${dataset.tone})` }} activeDot={{ r: 5 }} />
+              ))}
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      )}
+
+      {/* Area Chart */}
+      {isArea && (
+        <div className="copilot-chart-shell" style={{ height: lineAreaHeight }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={rows} margin={{ top: 12, right: 18, left: 0, bottom: 8 }}>
+              <defs>
+                {chart.datasets.map((dataset, i) => (
+                  <linearGradient key={dataset.key} id={`area-fill-${i}`} x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stopColor={`var(--copilot-chart-${dataset.tone})`} stopOpacity={0.32} />
+                    <stop offset="100%" stopColor={`var(--copilot-chart-${dataset.tone})`} stopOpacity={0.02} />
+                  </linearGradient>
+                ))}
+              </defs>
+              <CartesianGrid vertical={false} stroke="var(--chart-grid)" strokeDasharray="3 5" />
+              <XAxis dataKey="label" tick={{ fill: 'var(--muted)', fontSize: 11 }} tickLine={false} axisLine={false} tickFormatter={(v) => truncateChartTick(v, 12)} />
+              <YAxis tick={{ fill: 'var(--muted)', fontSize: 11 }} tickLine={false} axisLine={false} width={52} tickFormatter={(v) => compactNumber(Number(v))} />
+              <Tooltip {...tooltipStyle} />
+              {chart.datasets.map((dataset, i) => (
+                <Area key={dataset.key} type="monotone" dataKey={dataset.key} name={dataset.label} stroke={`var(--copilot-chart-${dataset.tone})`} strokeWidth={2.5} fill={`url(#area-fill-${i})`} />
+              ))}
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+      )}
+
+      {/* Pie Chart */}
+      {isPie && (
+        <div className="copilot-chart-shell" style={{ height: pieHeight }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Pie data={pieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius="72%" innerRadius="44%" cornerRadius={6} stroke="none" label={({ name, percent }) => `${truncateChartTick(name, 12)} ${(percent * 100).toFixed(0)}%`} labelLine={false}>
+                {pieData.map((_, index) => (
+                  <Cell key={index} fill={chartPalette[index % chartPalette.length]} />
+                ))}
+              </Pie>
+              <Tooltip
+                contentStyle={{ border: '1px solid var(--line)', borderRadius: 14, background: 'var(--card-solid)', color: 'var(--text)' }}
+                formatter={(value) => [formatMetricValue(Number(value)), chart.datasets[0]?.label || 'Value']}
+              />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+      )}
     </section>
   );
 }
@@ -1314,7 +1403,17 @@ function extractCopilotChartData(payload: CopilotApiPayload, nested: Record<stri
   return null;
 }
 
-function normalizeChartForRender(chartData: CopilotChartData): NormalizedCopilotChart | null {
+function resolveChartType(raw?: string): NormalizedCopilotChart['chartType'] {
+  const t = (raw || '').toLowerCase().replace(/[-\s]/g, '_');
+  if (t.includes('line')) return 'line';
+  if (t.includes('area')) return 'area';
+  if (t.includes('pie') || t.includes('donut') || t.includes('doughnut')) return 'pie';
+  if (t.includes('vertical') || t.includes('column')) return 'bar_vertical';
+  return 'bar';
+}
+
+function normalizeChartForRender(chartData: CopilotChartData, inheritedType?: string): NormalizedCopilotChart | null {
+  const chartType = resolveChartType(chartData.type || inheritedType);
   const labels = Array.isArray(chartData.labels) ? chartData.labels.map((label) => String(label)).filter(Boolean) : [];
   const datasetsSource = Array.isArray(chartData.datasets) ? chartData.datasets : [];
   const normalizedDatasets = datasetsSource
@@ -1329,6 +1428,7 @@ function normalizeChartForRender(chartData: CopilotChartData): NormalizedCopilot
   if (labels.length > 0 && normalizedDatasets.length > 0) {
     return {
       title: chartData.title || 'Query Results',
+      chartType,
       labels,
       datasets: normalizedDatasets.map((dataset) => ({ ...dataset, data: labels.map((_, index) => dataset.data[index] ?? 0) }))
     };
@@ -1339,13 +1439,14 @@ function normalizeChartForRender(chartData: CopilotChartData): NormalizedCopilot
   if (labels.length > 0 && numericValues.length > 0) {
     return {
       title: chartData.title || 'Query Results',
+      chartType,
       labels,
       datasets: [{ label: 'Value', key: 'value_0', data: labels.map((_, index) => numericValues[index] ?? 0), tone: 'primary' }]
     };
   }
 
   if (Array.isArray(chartData.rows) && chartData.rows.length > 0) {
-    return normalizeChartForRender(makeChartDataFromRows(chartData.rows));
+    return normalizeChartForRender(makeChartDataFromRows(chartData.rows), chartData.type || inheritedType);
   }
 
   return null;
