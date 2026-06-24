@@ -905,7 +905,8 @@ function CopilotPage() {
       const latest = document.getElementById(`copilot-${lastMessage.id}`);
       latest?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-  }, [messages, isLoading]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [messages.length, isLoading]);
 
   const toggleMessagePanel = (messageId: string, panel: 'showSql' | 'showSteps') => {
     setMessages((current) => current.map((message) => (
@@ -1028,6 +1029,18 @@ function CopilotPage() {
             value={input}
             onChange={(event) => setInput(event.target.value)}
             onKeyDown={handleComposerKeyDown}
+            onPaste={(event) => {
+              event.preventDefault();
+              const pasted = event.clipboardData.getData('text/plain').replace(/^\n+|\n+$/g, '');
+              const ta = event.currentTarget;
+              const start = ta.selectionStart ?? ta.value.length;
+              const end = ta.selectionEnd ?? ta.value.length;
+              const next = ta.value.slice(0, start) + pasted + ta.value.slice(end);
+              setInput(next);
+              requestAnimationFrame(() => {
+                ta.selectionStart = ta.selectionEnd = start + pasted.length;
+              });
+            }}
             placeholder="Ask Recovera about revenue leakage, seller risk, refunds, or growth..."
             aria-label="Ask Recovera Copilot"
             rows={1}
