@@ -1279,6 +1279,58 @@ button { cursor: pointer; }
 .copilot-meta button:hover { color: var(--text); background: color-mix(in srgb, var(--muted) 10%, transparent); }
 .copilot-meta-muted { color: var(--muted); font-size: 0.74rem; font-weight: 700; }
 
+/* ── TTS Button ── */
+.copilot-tts-row {
+  display: flex;
+  align-items: center;
+  padding: 2px 2px 0;
+}
+.copilot-tts-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 5px 12px 5px 9px;
+  background: color-mix(in srgb, var(--card-solid) 60%, transparent);
+  color: var(--muted);
+  font-size: 0.73rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: color 0.18s, background 0.18s, border-color 0.18s;
+}
+.copilot-tts-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+.copilot-tts-btn:hover {
+  color: var(--text);
+  background: color-mix(in srgb, var(--muted) 10%, transparent);
+  border-color: color-mix(in srgb, var(--muted) 30%, transparent);
+}
+.copilot-tts-btn.speaking {
+  color: var(--green);
+  border-color: color-mix(in srgb, var(--green) 35%, transparent);
+  background: color-mix(in srgb, var(--green) 10%, transparent);
+}
+.copilot-tts-wave {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: 2px;
+}
+.copilot-tts-wave i {
+  display: block;
+  width: 2px;
+  border-radius: 99px;
+  background: currentColor;
+  animation: tts-bar 0.8s ease-in-out infinite;
+}
+.copilot-tts-wave i:nth-child(1) { height: 8px; animation-delay: 0s; }
+.copilot-tts-wave i:nth-child(2) { height: 13px; animation-delay: 0.15s; }
+.copilot-tts-wave i:nth-child(3) { height: 8px; animation-delay: 0.3s; }
+@keyframes tts-bar {
+  0%, 100% { transform: scaleY(0.4); opacity: 0.5; }
+  50%       { transform: scaleY(1);   opacity: 1; }
+}
+
 .copilot-steps-box,
 .copilot-sql-box {
   width: 100%;
