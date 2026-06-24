@@ -37,7 +37,7 @@ type NavItem = {
   icon: IconName;
 };
 
-type IconName = 'grid' | 'warning' | 'database' | 'pulse' | 'trend' | 'sparkle' | 'refresh' | 'filter' | 'pin' | 'share' | 'bell' | 'moon' | 'sun' | 'search' | 'bot' | 'mic' | 'send' | 'plus' | 'expand' | 'type' | 'pen' | 'chat' | 'radio' | 'bolt';
+type IconName = 'grid' | 'warning' | 'database' | 'pulse' | 'trend' | 'sparkle' | 'refresh' | 'filter' | 'pin' | 'share' | 'bell' | 'moon' | 'sun' | 'search' | 'bot' | 'mic' | 'send' | 'plus' | 'expand' | 'type' | 'pen' | 'chat' | 'radio' | 'bolt' | 'volume' | 'stop';
 
 type CopilotChartData = {
   type?: string;
@@ -1057,12 +1057,63 @@ function CopilotPage() {
   );
 }
 
+function useTTS(text: string, lang: 'ar' | 'en') {
+  const [speaking, setSpeaking] = React.useState(false);
+  const utterRef = React.useRef<SpeechSynthesisUtterance | null>(null);
+
+  const stop = React.useCallback(() => {
+    window.speechSynthesis.cancel();
+    setSpeaking(false);
+  }, []);
+
+  const toggle = React.useCallback(() => {
+    if (speaking) { stop(); return; }
+    const plain = text
+      .replace(/\*\*(.+?)\*\*/g, '$1')
+      .replace(/\*(.+?)\*/g, '$1')
+      .replace(/#{1,6}\s*/g, '')
+      .replace(/`{1,3}[^`]*`{1,3}/g, '')
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+      .replace(/^\s*[-*+]\s+/gm, '')
+      .replace(/^\s*\d+\.\s+/gm, '')
+      .replace(/\n{2,}/g, '. ')
+      .replace(/\n/g, ' ')
+      .trim();
+    if (!plain) return;
+    const utter = new SpeechSynthesisUtterance(plain);
+    utter.lang = lang === 'ar' ? 'ar-EG' : 'en-US';
+    utter.rate = 1;
+    utter.pitch = 1;
+    // Prefer a matching voice if available
+    const voices = window.speechSynthesis.getVoices();
+    const match = voices.find(v => v.lang.startsWith(lang === 'ar' ? 'ar' : 'en'));
+    if (match) utter.voice = match;
+    utter.onend = () => setSpeaking(false);
+    utter.onerror = () => setSpeaking(false);
+    utterRef.current = utter;
+    window.speechSynthesis.speak(utter);
+    setSpeaking(true);
+  }, [speaking, text, lang, stop]);
+
+  // Cleanup on unmount
+  React.useEffect(() => () => { window.speechSynthesis.cancel(); }, []);
+
+  return { speaking, toggle, stop };
+}
+
 function CopilotMessage({ message, onTogglePanel, onCopySql }: { message: ChatMessage; onTogglePanel: (messageId: string, panel: 'showSql' | 'showSteps') => void; onCopySql: (sql?: string | null) => void }) {
   const isUser = message.role === 'user';
   const parsed = !isUser && !message.isError ? parseAnalysisCards(message.content) : { remaining: message.content, cards: [] as AnalysisCard[] };
   const showBubble = isUser || message.isError || parsed.remaining.trim().length > 0 || parsed.cards.length === 0;
 
   const direction = getMessageDirection(message.content);
+
+  // Build the full plain text for TTS: remaining prose + all card contents
+  const ttsText = !isUser && !message.isError
+    ? [parsed.remaining, ...parsed.cards.map(c => c.content)].filter(Boolean).join('\n')
+    : '';
+  const ttsLang: 'ar' | 'en' = direction === 'rtl' ? 'ar' : 'en';
+  const { speaking, toggle } = useTTS(ttsText, ttsLang);
 
   return (
     <article id={`copilot-${message.id}`} className={`copilot-msg ${isUser ? 'user' : 'assistant'} ${message.isError ? 'error' : ''}`} dir={direction}>
@@ -1081,7 +1132,23 @@ function CopilotMessage({ message, onTogglePanel, onCopySql }: { message: ChatMe
 
         {!isUser && !message.isError && message.chartData && <CopilotResponseChart chartData={message.chartData} />}
 
-        {!isUser && !message.isError && <CopilotMeta message={message} onTogglePanel={onTogglePanel} />}
+        {!isUser && !message.isError && ttsText && (
+          <div className="copilot-tts-row">
+            <button
+              type="button"
+              className={`copilot-tts-btn${speaking ? ' speaking' : ''}`}
+              onClick={toggle}
+              aria-label={speaking ? (ttsLang === 'ar' ? 'إيقاف القراءة' : 'Stop reading') : (ttsLang === 'ar' ? 'استمع للرد' : 'Listen to response')}
+              title={speaking ? (ttsLang === 'ar' ? 'إيقاف' : 'Stop') : (ttsLang === 'ar' ? 'استمع' : 'Listen')}
+            >
+              <Icon name={speaking ? 'stop' : 'volume'} />
+              <span>{speaking ? (ttsLang === 'ar' ? 'إيقاف' : 'Stop') : (ttsLang === 'ar' ? 'استمع' : 'Listen')}</span>
+              {speaking && <span className="copilot-tts-wave"><i/><i/><i/></span>}
+            </button>
+          </div>
+        )}
+
+        {!isUser && !message.isError && <CopilotMeta message={message} onTogglePanel={onTogglePanel} />
 
         {!isUser && message.steps && message.steps.length > 0 && message.showSteps && (
           <div className="copilot-steps-box">
@@ -1976,5 +2043,7 @@ function Icon({ name }: { name: IconName }) {
     case 'chat': return <svg {...common}><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v8Z" /></svg>;
     case 'radio': return <svg {...common}><path d="M4.9 19.1a10 10 0 0 1 0-14.2" /><path d="M8.5 15.5a5 5 0 0 1 0-7" /><circle cx="12" cy="12" r="1.8" /><path d="M15.5 8.5a5 5 0 0 1 0 7" /><path d="M19.1 4.9a10 10 0 0 1 0 14.2" /></svg>;
     case 'bolt': return <svg {...common}><path d="m13 2-9 13h7l-1 7 9-13h-7l1-7Z" /></svg>;
+    case 'volume': return <svg {...common}><path d="M11 5 6 9H2v6h4l5 4V5Z" /><path d="M15.5 8.5a5 5 0 0 1 0 7" /><path d="M19 5a10 10 0 0 1 0 14" /></svg>;
+    case 'stop': return <svg {...common}><rect x="4" y="4" width="16" height="16" rx="2" /></svg>;
   }
 }
