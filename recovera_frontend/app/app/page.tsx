@@ -1058,15 +1058,15 @@ function CopilotPage() {
 }
 
 function useTTS(text: string, lang: 'ar' | 'en') {
-  const [speaking, setSpeaking] = React.useState(false);
-  const utterRef = React.useRef<SpeechSynthesisUtterance | null>(null);
+  const [speaking, setSpeaking] = useState(false);
+  const utterRef = useRef<SpeechSynthesisUtterance | null>(null);
 
-  const stop = React.useCallback(() => {
+  const stop = useCallback(() => {
     window.speechSynthesis.cancel();
     setSpeaking(false);
   }, []);
 
-  const toggle = React.useCallback(() => {
+  const toggle = useCallback(() => {
     if (speaking) { stop(); return; }
     const plain = text
       .replace(/\*\*(.+?)\*\*/g, '$1')
@@ -1084,7 +1084,6 @@ function useTTS(text: string, lang: 'ar' | 'en') {
     utter.lang = lang === 'ar' ? 'ar-EG' : 'en-US';
     utter.rate = 1;
     utter.pitch = 1;
-    // Prefer a matching voice if available
     const voices = window.speechSynthesis.getVoices();
     const match = voices.find(v => v.lang.startsWith(lang === 'ar' ? 'ar' : 'en'));
     if (match) utter.voice = match;
@@ -1095,8 +1094,7 @@ function useTTS(text: string, lang: 'ar' | 'en') {
     setSpeaking(true);
   }, [speaking, text, lang, stop]);
 
-  // Cleanup on unmount
-  React.useEffect(() => () => { window.speechSynthesis.cancel(); }, []);
+  useEffect(() => () => { window.speechSynthesis.cancel(); }, []);
 
   return { speaking, toggle, stop };
 }
