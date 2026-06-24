@@ -1148,7 +1148,7 @@ function CopilotMessage({ message, onTogglePanel, onCopySql }: { message: ChatMe
           </div>
         )}
 
-        {!isUser && !message.isError && <CopilotMeta message={message} onTogglePanel={onTogglePanel} />
+        {!isUser && !message.isError && <CopilotMeta message={message} onTogglePanel={onTogglePanel} />}
 
         {!isUser && message.steps && message.steps.length > 0 && message.showSteps && (
           <div className="copilot-steps-box">
