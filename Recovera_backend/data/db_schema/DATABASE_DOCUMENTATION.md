@@ -1,0 +1,673 @@
+# Database Documentation
+
+# Table: ecommerce.customers
+Description: Customer profiles. JOIN to orders on customer_id. customer_unique_id groups duplicate accounts for the same person.
+
+## Columns
+- customer_id (character varying)
+- customer_unique_id (character varying)
+- customer_zip_code_prefix (integer)
+- customer_city (character varying)
+- customer_name (character varying)
+- lifetime_value (numeric) — Total historical revenue in EGP. Filter > 1000 for high-value customers.
+- segment ENUM: 'Low Value', 'Mid Value', 'High Value' — ENUM. Valid: Low Value, Mid Value, High Value.
+- churn_risk ENUM: 'High', 'Medium', 'Low' — ENUM. Valid: High, Medium, Low.
+- total_orders (integer)
+- avg_order_value (numeric)
+- is_verified (boolean)
+
+## Sample Rows
+{"customer_id": "35f0740686db45748738bb5960707b8f", "customer_unique_id": "3bfb6860ab044994ba1bda120fbd939d", "customer_zip_code_prefix": 32440, "customer_city": "Cairo", "customer_name": "Amira Sobhy", "lifetime_value": 695.51, "segment": "Low Value", "churn_risk": "High", "total_orders": 3, "avg_order_value": 1423.56, "is_verified": true}
+{"customer_id": "fc1284546dff49f8beb5d5bc4b97c480", "customer_unique_id": "01bd08143245407eb2727e6deb51f658", "customer_zip_code_prefix": 18060, "customer_city": "Zagazig", "customer_name": "Tarek Fouad", "lifetime_value": 21889.34, "segment": "High Value", "churn_risk": "Low", "total_orders": 18, "avg_order_value": 966.29, "is_verified": true}
+
+---
+
+# Table: ecommerce.geolocation
+Description: Zip-to-coordinates mapping. Many rows per zip code. JOIN to customers on customer_zip_code_prefix.
+
+## Columns
+- id (integer)
+- geolocation_zip_code_prefix (integer)
+- geolocation_lat (numeric)
+- geolocation_lng (numeric)
+- geolocation_city (character varying)
+
+## Sample Rows
+{"id": 1, "geolocation_zip_code_prefix": 10000, "geolocation_lat": 29.987375, "geolocation_lng": 32.550521, "geolocation_city": "Suez"}
+{"id": 2, "geolocation_zip_code_prefix": 10001, "geolocation_lat": 30.078774, "geolocation_lng": 31.309323, "geolocation_city": "Cairo"}
+
+---
+
+# Table: ecommerce.order_items
+Description: Line items per order. Many-to-one with orders. SUM price_after_discount grouped by order_id for revenue.
+
+## Columns
+- id (integer)
+- order_id (character varying)
+- order_item_id (smallint)
+- product_id (character varying)
+- seller_id (character varying)
+- price (numeric)
+- freight_value (numeric)
+- item_discount_pct (numeric)
+- price_after_discount (numeric) — Final item price in EGP after discount. Use for revenue SUM.
+- logistics_cost (numeric)
+
+## Foreign Keys
+- order_id → ecommerce.orders.order_id
+- product_id → ecommerce.products.product_id
+- seller_id → ecommerce.sellers.seller_id
+
+## Sample Rows
+{"id": 1, "order_id": "0bf48b479576466bacfdf867df732390", "order_item_id": 1, "product_id": "b4a49647974f4341811127fa80d94a7b", "seller_id": "afd78e9dd9fc476c83fded1088dc23bf", "price": 149.43, "freight_value": 43.88, "item_discount_pct": 0.033, "price_after_discount": 144.5, "logistics_cost": 52.42}
+{"id": 2, "order_id": "dc731b36aa454393956de4c31034e5e1", "order_item_id": 1, "product_id": "8e9a61c32f6a4b7a9e2adbd69faf99ab", "seller_id": "e6571639d28042fdbe1b5ed4e074fb79", "price": 457.52, "freight_value": 59.3, "item_discount_pct": 0.004, "price_after_discount": 455.69, "logistics_cost": 58.56}
+
+---
+
+# Table: ecommerce.orders
+Description: Core fact table. ~298K orders. All money in EGP. Use order_month for monthly GROUP BY — GENERATED column, no DATE_TRUNC needed. Use order_quarter for quarterly aggregates.
+
+## Columns
+- order_id (character varying)
+- customer_id (character varying)
+- order_status ENUM: 'delivered', 'canceled', 'shipped', 'processing', 'invoiced', 'unavailable' — ENUM (lowercase only): delivered, canceled, shipped, processing, invoiced, unavailable. ETL must call LOWER() before insert.
+- order_purchase_timestamp (timestamp with time zone)
+- order_approved_at (timestamp with time zone)
+- order_delivered_carrier_date (timestamp with time zone)
+- order_delivered_customer_date (timestamp with time zone)
+- order_estimated_delivery_date (timestamp with time zone)
+- shipping_delay_days (smallint) — Positive = late delivery. > 14 triggers delayed_delivery_compensation leakage.
+- invoice_available (boolean)
+- avg_discount_pct (numeric) — Decimal 0.0-1.0. DO NOT multiply by 100 when filtering. Values > 0.50 indicate high_discount_negative_profit leakage.
+- total_revenue (numeric)
+- total_logistics (numeric)
+- total_freight (numeric)
+- item_count (smallint)
+- total_profit (numeric)
+- profit_margin (numeric) — Profit / Revenue. Negative = leakage. Filter: profit_margin < 0.
+- inventory_mismatch (boolean)
+- payment_status ENUM: 'approved', 'partial', 'unpaid', 'missing' — ENUM: approved, partial, unpaid, missing. missing = no payment record (leakage: delivered_no_payment).
+- order_month (date) [GENERATED — do not filter on directly] — GENERATED (immutable). First day of purchase month in Africa/Cairo time. Use for monthly GROUP BY.
+- order_quarter (date) [GENERATED — do not filter on directly] — GENERATED (immutable). First day of purchase quarter in Africa/Cairo time. Use for quarterly GROUP BY.
+- order_year (integer) [GENERATED — do not filter on directly]
+
+## Foreign Keys
+- customer_id → ecommerce.customers.customer_id
+
+## Sample Rows
+{"order_id": "0bf48b479576466bacfdf867df732390", "customer_id": "3215a5703dd745a0a8b2fd3d497a57df", "order_status": "delivered", "order_purchase_timestamp": "2023-05-23 00:00:00+00:00", "order_approved_at": "2023-05-24 03:50:20.872980+00:00", "order_delivered_carrier_date": "2023-05-26 15:41:07.903811+00:00", "order_delivered_customer_date": "2023-05-31 03:41:30.506452+00:00", "order_estimated_delivery_date": "2023-06-02 03:41:30.506452+00:00", "shipping_delay_days": -2, "invoice_available": true, "avg_discount_pct": 0.033, "total_revenue": 144.5, "total_logistics": 52.42, "total_freight": 43.88, "item_count": 1, "total_profit": 70.4, "profit_margin": 0.4872, "inventory_mismatch": false, "payment_status": "approved", "order_month": "2023-05-01", "order_quarter": "2023-04-01", "order_year": 2023}
+{"order_id": "dc731b36aa454393956de4c31034e5e1", "customer_id": "9c478adb5215485cbc27407d9ec6dca9", "order_status": "delivered", "order_purchase_timestamp": "2023-08-21 00:00:00+00:00", "order_approved_at": "2023-08-22 00:21:40.878993+00:00", "order_delivered_carrier_date": "2023-08-24 20:08:42.789447+00:00", "order_delivered_customer_date": "2023-09-01 00:48:52.559263+00:00", "order_estimated_delivery_date": "2023-08-30 00:48:52.559263+00:00", "shipping_delay_days": 2, "invoice_available": true, "avg_discount_pct": 0.05, "total_revenue": 597.48, "total_logistics": 98.67, "total_freight": 95.18, "item_count": 2, "total_profit": 409.19, "profit_margin": 0.6849, "inventory_mismatch": false, "payment_status": "approved", "order_month": "2023-08-01", "order_quarter": "2023-07-01", "order_year": 2023}
+
+---
+
+# Table: ecommerce.payments
+Description: Payment records. Multiple rows per order for installments. Filter payment_sequential = 1 for the primary payment method. seller_paid_twice = TRUE is leakage scenario seller_paid_twice.
+
+## Columns
+- id (integer)
+- order_id (character varying)
+- payment_sequential (smallint)
+- payment_type ENUM: 'credit_card', 'debit_card', 'voucher', 'cash_on_delivery', 'unknown' — ENUM: credit_card, debit_card, voucher, cash_on_delivery.
+- payment_installments (smallint)
+- payment_value (numeric)
+- payment_status ENUM: 'approved', 'partial', 'unpaid', 'missing'
+- seller_paid_twice (boolean)
+
+## Foreign Keys
+- order_id → ecommerce.orders.order_id
+
+## Sample Rows
+{"id": 371, "order_id": "0bf48b479576466bacfdf867df732390", "payment_sequential": 1, "payment_type": "voucher", "payment_installments": 1, "payment_value": 144.5, "payment_status": "approved", "seller_paid_twice": false}
+{"id": 372, "order_id": "dc731b36aa454393956de4c31034e5e1", "payment_sequential": 1, "payment_type": "credit_card", "payment_installments": 1, "payment_value": 597.48, "payment_status": "approved", "seller_paid_twice": false}
+
+---
+
+# Table: ecommerce.products
+Description: Product catalog. JOIN to order_items on product_id.
+
+## Columns
+- product_id (character varying)
+- product_category_name (character varying)
+- product_name_length (integer)
+- product_description_length (integer)
+- product_photos_qty (smallint)
+- product_weight_g (integer)
+- product_length_cm (smallint)
+- product_height_cm (smallint)
+- product_width_cm (smallint)
+- unit_price_egp (numeric) — List price in EGP. Actual sale price is order_items.price_after_discount.
+
+## Sample Rows
+{"product_id": "b43b13c010ac41189b87f52a845684db", "product_category_name": "office_supplies", "product_name_length": 30, "product_description_length": 1489, "product_photos_qty": 8, "product_weight_g": 14397, "product_length_cm": 21, "product_height_cm": 78, "product_width_cm": 23, "unit_price_egp": 4965.37}
+{"product_id": "b21aa86b257d414baadd70ac0ea086aa", "product_category_name": "fashion_clothing", "product_name_length": 79, "product_description_length": 2772, "product_photos_qty": 1, "product_weight_g": 19758, "product_length_cm": 45, "product_height_cm": 63, "product_width_cm": 67, "unit_price_egp": 5607.0}
+
+---
+
+# Table: ecommerce.refunds
+Description: ~7800 refund records. Multiple refunds per order = duplicate_refund leakage.
+
+## Columns
+- refund_id (character varying)
+- order_id (character varying)
+- refund_amount (numeric)
+- refund_date (timestamp with time zone)
+- refund_reason ENUM: 'incorrect_refund', 'return_request', 'early_refund', 'late_delivery_compensation', 'item_not_as_described', 'customer_request' — ENUM: incorrect_refund, return_request, early_refund, late_delivery_compensation, item_not_as_described, customer_request.
+- refund_status (character varying)
+- duplicate_refund (boolean) — TRUE = second refund for same order. Leakage: duplicate_refund.
+- processed_before_cancel (boolean) — TRUE = refund issued before order cancelled. Leakage: refund_before_cancellation.
+
+## Foreign Keys
+- order_id → ecommerce.orders.order_id
+
+## Sample Rows
+{"refund_id": "83947163ab294297aabd99b0189a294c", "order_id": "31e41b34b9d44e8da741f022a804637c", "refund_amount": 795.21, "refund_date": "2023-10-24 00:00:00+00:00", "refund_reason": "incorrect_refund", "refund_status": "processed", "duplicate_refund": false, "processed_before_cancel": false}
+{"refund_id": "3527a690014c40069ef85d56f291a9a4", "order_id": "be081895d3b44e4289052622f6ee05ea", "refund_amount": 8363.89, "refund_date": "2024-08-24 00:00:00+00:00", "refund_reason": "incorrect_refund", "refund_status": "processed", "duplicate_refund": false, "processed_before_cancel": false}
+
+---
+
+# Table: ecommerce.reviews
+Description: ~262K reviews. WARNING: multiple reviews per order possible. Use mv_leakage_dashboard (LATERAL join) to avoid row duplication.
+
+## Columns
+- review_id (character varying)
+- order_id (character varying)
+- customer_id (character varying)
+- rating (numeric)
+- review_comment (text)
+- review_date (timestamp with time zone)
+- sentiment ENUM: 'positive', 'neutral', 'negative', 'mixed', 'unknown' — ENUM: positive, neutral, negative, mixed, unknown. negative on a delivered order is a strong leakage signal.
+- is_emoji_only (boolean)
+- rating_group (character varying)
+- has_comment (boolean)
+
+## Foreign Keys
+- order_id → ecommerce.orders.order_id
+- customer_id → ecommerce.customers.customer_id
+
+## Sample Rows
+{"review_id": "2b89a5d140a84a648586a13d6c3ed2fb", "order_id": "0bf48b479576466bacfdf867df732390", "customer_id": "3215a5703dd745a0a8b2fd3d497a57df", "rating": 4.0, "review_comment": "Quick delivery, product as expected.", "review_date": "2023-06-02 00:00:00+00:00", "sentiment": "positive", "is_emoji_only": false, "rating_group": "positive", "has_comment": true}
+{"review_id": "9cbe2717a65f4d8299a716dd93423b1d", "order_id": "dc731b36aa454393956de4c31034e5e1", "customer_id": "9c478adb5215485cbc27407d9ec6dca9", "rating": 3.0, "review_comment": "5 stars for the fast shioping.", "review_date": "2023-08-27 00:00:00+00:00", "sentiment": "positive", "is_emoji_only": false, "rating_group": "neutral", "has_comment": true}
+
+---
+
+# Table: ecommerce.sellers
+Description: Seller profiles. JOIN to order_items on seller_id.
+
+## Columns
+- seller_id (character varying)
+- seller_zip_code_prefix (integer)
+- seller_city (character varying)
+- seller_name (character varying)
+- seller_rating (numeric)
+- total_orders (integer)
+- return_rate (numeric) — Return ratio 0.0-1.0. Filter > 0.15 for high-risk sellers.
+- payment_disputes (integer) — Count of payment disputes. High values indicate suspicious activity.
+- is_verified (boolean)
+- dq_name_cleaned (boolean)
+- dq_city_cleaned (boolean)
+
+## Sample Rows
+{"seller_id": "fd3235a0c5fd4e5b8ed568a7453c1c7b", "seller_zip_code_prefix": 82198, "seller_city": "Tanta", "seller_name": "TopDeal Egypt #0", "seller_rating": 3.0, "total_orders": 2217, "return_rate": 0.137, "payment_disputes": 22, "is_verified": true, "dq_name_cleaned": false, "dq_city_cleaned": false}
+{"seller_id": "0693e7cbb3ee4d0d80fce82701204479", "seller_zip_code_prefix": 35712, "seller_city": "Giza", "seller_name": "Delta Market #1", "seller_rating": 4.2, "total_orders": 2652, "return_rate": 0.242, "payment_disputes": 25, "is_verified": true, "dq_name_cleaned": false, "dq_city_cleaned": false}
+
+---
+
+# Table: ecommerce.shipping
+Description: One row per order. Carriers: Aramex EG, Egypt Post, Bosta, Mylerz, Voo, R2S Express.
+
+## Columns
+- shipping_id (character varying)
+- order_id (character varying)
+- carrier (character varying)
+- tracking_number (character varying)
+- shipped_date (timestamp with time zone)
+- delivered_date (timestamp with time zone)
+- shipping_status ENUM: 'delivered', 'in_transit', 'cancelled', 'failed', 'never_shipped', 'pending' — ENUM: delivered, in_transit, cancelled, failed, never_shipped, pending. never_shipped = payment_approved_never_shipped leakage.
+- shipping_fee_charged (numeric)
+- actual_logistics_cost (numeric)
+- freight_value (numeric)
+- fee_calculation_error (boolean)
+- fee_to_cost_ratio (numeric) [GENERATED — do not filter on directly] — GENERATED. fee_charged / actual_cost. > 2.5 = wrong_shipping_fee leakage.
+
+## Foreign Keys
+- order_id → ecommerce.orders.order_id
+
+## Sample Rows
+{"shipping_id": "e631aae8c1da43f7925ba738ca25b359", "order_id": "0bf48b479576466bacfdf867df732390", "carrier": "Bosta", "tracking_number": "EG779263352", "shipped_date": "2023-05-26 15:41:07.903811+00:00", "delivered_date": "2023-05-31 03:41:30.506452+00:00", "shipping_status": "delivered", "shipping_fee_charged": 68.07, "actual_logistics_cost": 52.42, "freight_value": 43.88, "fee_calculation_error": false, "fee_to_cost_ratio": 1.2986}
+{"shipping_id": "ff2c99554b804700bd76fab85384b74a", "order_id": "dc731b36aa454393956de4c31034e5e1", "carrier": "Aramex EG", "tracking_number": "EG654685109", "shipped_date": "2023-08-24 20:08:42.789447+00:00", "delivered_date": "2023-09-01 00:48:52.559263+00:00", "shipping_status": "delivered", "shipping_fee_charged": 16.86, "actual_logistics_cost": 98.67, "freight_value": 95.18, "fee_calculation_error": false, "fee_to_cost_ratio": 0.1709}
+
+---
+
+# Table: marketing.campaign_attribution
+## Columns
+- id (integer)
+- order_id (character varying)
+- campaign_id (character varying)
+- attribution_type (character varying)
+
+## Foreign Keys
+- order_id → ecommerce.orders.order_id
+- campaign_id → marketing.marketing_campaigns.campaign_id
+
+## Sample Rows
+{"id": 1, "order_id": "f3aaee0b343a49e5b44a533601a63d7c", "campaign_id": "CMP00181", "attribution_type": "last_click"}
+{"id": 2, "order_id": "a59622221db04d629071f9a326056aa5", "campaign_id": "CMP00042", "attribution_type": "last_click"}
+
+---
+
+# Table: marketing.customer_interactions
+## Columns
+- interaction_id (character varying)
+- customer_id (character varying)
+- campaign_id (character varying)
+- interaction_date (timestamp with time zone)
+- channel (character varying)
+- action_type (character varying)
+- device (character varying)
+
+## Foreign Keys
+- customer_id → ecommerce.customers.customer_id
+- campaign_id → marketing.marketing_campaigns.campaign_id
+
+## Sample Rows
+{"interaction_id": "INT000000001", "customer_id": "826e2f0e85404049aa840a71844d9aa2", "campaign_id": "CMP00159", "interaction_date": "2024-11-17 13:58:00+00:00", "channel": "Instagram", "action_type": "click", "device": "mobile"}
+{"interaction_id": "INT000000002", "customer_id": "8bb48d422b354a8f85ae6e1e69d04952", "campaign_id": "CMP00087", "interaction_date": "2024-01-21 05:49:00+00:00", "channel": "Instagram", "action_type": "view", "device": "desktop"}
+
+---
+
+# Table: marketing.leads_closed
+## Columns
+- mql_id (character varying)
+- seller_id (character varying)
+- sdr_id (character varying)
+- sr_id (character varying)
+- won_date (date)
+- business_segment (character varying)
+- lead_type (character varying)
+- lead_behaviour_profile (character varying)
+- has_company (boolean)
+- has_gtin (boolean)
+- average_stock (character varying)
+- business_type (character varying)
+- declared_product_catalog_size (numeric)
+- declared_monthly_revenue (numeric)
+
+## Foreign Keys
+- seller_id → ecommerce.sellers.seller_id
+- mql_id → marketing.leads_qualified.mql_id
+
+## Sample Rows
+{"mql_id": "28a173061ae5492f94f38f29378a03d4", "seller_id": "ede25bf6bbb345ef88b6d715b1a5e3c3", "sdr_id": "c73f7380f8934f2d85eaf33a43259663", "sr_id": "19ba3f67ed0d4a85be87c9e561948ce7", "won_date": "2024-05-25", "business_segment": "electronics_retail", "lead_type": "other", "lead_behaviour_profile": "eagle", "has_company": true, "has_gtin": true, "average_stock": "50-100", "business_type": "importer", "declared_product_catalog_size": 100.0, "declared_monthly_revenue": 154135.0}
+{"mql_id": "bc38e583ad5c4c7c9cc38d880e2359d6", "seller_id": "28ab74737bd14d06831a29804ccee410", "sdr_id": "9f7e3e93989245cba28a1acd90f8967a", "sr_id": "ca0a4628423b4c85b0cddc6f702d9a65", "won_date": "2024-12-03", "business_segment": "sports_equipment", "lead_type": "online_big", "lead_behaviour_profile": "shark", "has_company": true, "has_gtin": true, "average_stock": "50-100", "business_type": "retailer", "declared_product_catalog_size": 100.0, "declared_monthly_revenue": 136410.0}
+
+---
+
+# Table: marketing.leads_qualified
+## Columns
+- mql_id (character varying)
+- first_contact_date (date)
+- landing_page_id (character varying)
+- origin (character varying)
+
+## Sample Rows
+{"mql_id": "440227866fbf4811aeb59dfc0618143b", "first_contact_date": "2024-09-30", "landing_page_id": "527e98fab5cd4063ad1291e2a37915f3", "origin": "social_media"}
+{"mql_id": "f1df4c7031bd42ea96be6779074e8cca", "first_contact_date": "2024-12-04", "landing_page_id": "a120f5a0544d46aa80db1d930da94ab7", "origin": "social_media"}
+
+---
+
+# Table: marketing.marketing_campaigns
+Description: Campaign definitions. JOIN to campaign_attribution on campaign_id.
+
+## Columns
+- campaign_id (character varying)
+- campaign_name (character varying)
+- channel (character varying)
+- campaign_type (character varying)
+- start_date (date)
+- end_date (date)
+- budget (numeric)
+
+## Sample Rows
+{"campaign_id": "CMP00001", "campaign_name": "Ramadan Kareem Sale — Google 2024", "channel": "Google", "campaign_type": "Conversion", "start_date": "2024-03-02", "end_date": "2024-03-30", "budget": 57209.9}
+{"campaign_id": "CMP00002", "campaign_name": "Ramadan Kareem Sale — SMS 2024", "channel": "SMS", "campaign_type": "Conversion", "start_date": "2024-03-02", "end_date": "2024-03-30", "budget": 4998.66}
+
+---
+
+# Table: marketing.website_sessions
+Description: Session logs. bounce=TRUE = single-page visit. session_duration_min is GENERATED from start/end timestamps.
+
+## Columns
+- session_id (character varying)
+- customer_id (character varying)
+- session_start (timestamp with time zone)
+- session_end (timestamp with time zone)
+- traffic_source (character varying)
+- landing_page (character varying)
+- bounce (boolean)
+- session_duration_min (numeric)
+
+## Foreign Keys
+- customer_id → ecommerce.customers.customer_id
+
+## Sample Rows
+{"session_id": "SES000000001", "customer_id": "ce25c0fef9ad447b83a0dadaf05320e9", "session_start": "2023-06-26 14:25:00+00:00", "session_end": "2023-06-26 15:05:00+00:00", "traffic_source": "paid_search", "landing_page": "/brand/local", "bounce": false, "session_duration_min": 40.0}
+{"session_id": "SES000000002", "customer_id": "9246b9f873fc46bf97079f3e3bfd8d3a", "session_start": "2024-10-23 00:25:00+00:00", "session_end": "2024-10-23 00:33:00+00:00", "traffic_source": "organic", "landing_page": "/top-sellers", "bounce": false, "session_duration_min": 8.0}
+
+---
+
+# Table: ml_output.chatbot_conversations
+Description: Multi-turn conversation history. Load last N rows by session_id ordered by turn_index to reconstruct context window.
+
+## Columns
+- id (bigint)
+- session_id (character varying) — Groups all turns of one chat session. Use UUID.
+- turn_index (integer)
+- role ENUM: 'system', 'user', 'assistant', 'tool'
+- content (text)
+- tool_calls (jsonb)
+- tool_results (jsonb)
+- created_at (timestamp with time zone)
+
+---
+
+# Table: ml_output.chatbot_enums
+Description: Inject into LLM system prompt. Provides all valid ENUM values and meanings. Prevents hallucinated filter values like WHERE order_status = 'complete'.
+
+## Columns
+- enum_name (character varying)
+- enum_value (character varying)
+- description (text)
+
+## Sample Rows
+{"enum_name": "order_status", "enum_value": "delivered", "description": "Order delivered to customer"}
+{"enum_name": "order_status", "enum_value": "canceled", "description": "Order cancelled"}
+
+---
+
+# Table: ml_output.chatbot_prompt_versions
+Description: Prompt version control. Only one row can have is_active=TRUE (enforced by partial unique index). Load the active row system_prompt at chatbot startup.
+
+## Columns
+- version_id (integer)
+- version_tag (character varying)
+- system_prompt (text)
+- schema_context (text)
+- change_description (text)
+- auc_score (numeric)
+- avg_f1 (numeric)
+- created_at (timestamp with time zone)
+- is_active (boolean)
+
+---
+
+# Table: ml_output.chatbot_query_log
+Description: Every chatbot query logged here. Use for debugging, prompt improvement, cost tracking. cost_usd formula: (input_tokens * 0.000003 + output_tokens * 0.000015) for gpt-4o-mini.
+
+## Columns
+- id (bigint)
+- session_id (character varying)
+- turn_id (bigint)
+- user_question (text)
+- detected_intent (character varying)
+- generated_sql (text)
+- tables_used (ARRAY)
+- execution_ms (integer)
+- row_count (integer)
+- was_helpful (boolean)
+- error_message (text)
+- llm_model (character varying)
+- input_tokens (integer)
+- output_tokens (integer)
+- cost_usd (numeric)
+- created_at (timestamp with time zone)
+
+## Foreign Keys
+- turn_id → ml_output.chatbot_conversations.id
+
+---
+
+# Table: ml_output.order_anomaly_scores
+Description: ML anomaly score per order. anomaly_flag = 1 means leakage detected.
+
+## Columns
+- order_id (character varying)
+- if_score (numeric)
+- lof_score (numeric)
+- ensemble_score (numeric) — Higher = more anomalous. Low < 0.40 | Medium 0.40-0.65 | High 0.65-0.80 | Critical > 0.80.
+- anomaly_flag (smallint)
+- risk_tier ENUM: 'Low', 'Medium', 'High', 'Critical'
+- anomaly_rank (numeric)
+- leakage_scenarios (ARRAY) — Array of leakage ENUMs. Filter: WHERE 'duplicate_refund' = ANY(leakage_scenarios).
+- leakage_reason (text)
+- scored_at (timestamp with time zone)
+- customer_id (character varying)
+- order_status ENUM: 'delivered', 'canceled', 'shipped', 'processing', 'invoiced', 'unavailable'
+- order_purchase_timestamp (timestamp with time zone)
+- total_revenue (numeric)
+- profit_margin (numeric)
+- avg_discount_pct (numeric)
+- shipping_delay_days (smallint)
+- payment_status ENUM: 'approved', 'partial', 'unpaid', 'missing'
+- shipping_status (character varying)
+- month (character varying)
+
+## Foreign Keys
+- order_id → ecommerce.orders.order_id
+
+## Sample Rows
+{"order_id": "221975b08b834ee6a380a142e32f12f7", "if_score": 0.363543, "lof_score": 0.040777, "ensemble_score": 0.250575, "anomaly_flag": 0, "risk_tier": "Low", "anomaly_rank": 0.89537, "leakage_scenarios": "{no_leakage}", "leakage_reason": "no_leakage", "scored_at": "2026-05-21 14:44:14.637268+00:00", "customer_id": "40a4ec38ef81432f8becbd659ce7e628", "order_status": "delivered", "order_purchase_timestamp": "2024-08-21 00:00:00+00:00", "total_revenue": 253.37, "profit_margin": 0.4173, "avg_discount_pct": 0.132, "shipping_delay_days": -3, "payment_status": "approved", "shipping_status": "delivered", "month": "2024-08"}
+{"order_id": "57307b1e74804167a82bdc595e58460e", "if_score": 0.078715, "lof_score": 0.014981, "ensemble_score": 0.056408, "anomaly_flag": 0, "risk_tier": "Low", "anomaly_rank": 0.16337, "leakage_scenarios": "{no_leakage}", "leakage_reason": "no_leakage", "scored_at": "2026-05-21 14:44:14.637268+00:00", "customer_id": "200b411605314acca439add64a2955be", "order_status": "delivered", "order_purchase_timestamp": "2024-01-02 00:00:00+00:00", "total_revenue": 3498.14, "profit_margin": 0.8331, "avg_discount_pct": 0.054, "shipping_delay_days": 3, "payment_status": "approved", "shipping_status": "delivered", "month": "2024-01"}
+
+---
+
+# Table: ml_output.order_leakage_reasons
+Description: Junction: one row per (order, leakage_type). PREFERRED for scenario filtering. Example: WHERE leakage_type = 'duplicate_refund'.
+
+## Columns
+- order_id (character varying)
+- leakage_type ENUM: 'delivered_no_payment', 'shipped_then_cancelled', 'incorrect_refund_on_delivery', 'duplicate_refund', 'payment_approved_never_shipped', 'logistics_exceeds_revenue', 'returned_product_kept', 'cod_unpaid_after_delivery', 'fake_delivery_success', 'high_discount_negative_profit', 'no_invoice_on_completion', 'partial_payment_only', 'refund_before_cancellation', 'inventory_mismatch', 'seller_paid_twice', 'shipping_failed_review_exists', 'review_contradicts_cancelled', 'wrong_shipping_fee', 'repeated_small_refunds', 'delayed_delivery_compensation', 'no_leakage', 'statistical_outlier', 'negative_profit_margin'
+- confidence (numeric)
+
+## Foreign Keys
+- order_id → ecommerce.orders.order_id
+
+## Sample Rows
+{"order_id": "4dfbc2565bdb4fad862f8dccf4a60f8b", "leakage_type": "statistical_outlier", "confidence": 0.3998}
+{"order_id": "d154ba29383048febf1487714736c2e1", "leakage_type": "shipping_failed_review_exists", "confidence": 0.3702}
+
+---
+
+# Table: ml_output.schema_metadata
+Description: Inject into LLM system prompt. Guides table selection, prevents wrong JOINs.
+
+## Columns
+- table_schema (character varying)
+- table_name (character varying)
+- description (text)
+- row_count_approx (bigint)
+- key_columns (text)
+- join_hint (text)
+- chatbot_use_case (text)
+
+## Sample Rows
+{"table_schema": "ecommerce", "table_name": "orders", "description": "Core fact table. Revenue, profit, discount, status, timestamps. All money EGP.", "row_count_approx": 298323, "key_columns": "order_id (PK), customer_id, order_status, total_revenue, profit_margin, order_month, order_quarter", "join_hint": "JOIN customers ON customer_id. JOIN payments ON order_id AND payment_sequential=1.", "chatbot_use_case": "Monthly/quarterly revenue, profit, leakage counts. Use order_month for GROUP BY."}
+{"table_schema": "ecommerce", "table_name": "customers", "description": "Customer profiles: LTV, segment, churn risk, city.", "row_count_approx": 253574, "key_columns": "customer_id (PK), segment, churn_risk, lifetime_value, customer_city", "join_hint": "JOIN orders ON customer_id.", "chatbot_use_case": "Segment analysis, city breakdown, high-value customers."}
+
+---
+
+# Table: rag.business_embeddings
+## Columns
+- doc_id (bigint)
+- embedding (USER-DEFINED)
+- created_at (timestamp with time zone)
+
+## Foreign Keys
+- doc_id → rag.documents.doc_id
+
+## Sample Rows
+{"doc_id": 16, "created_at": "2026-05-22 17:06:03.147198+00:00"}
+{"doc_id": 13, "created_at": "2026-05-22 17:06:03.147198+00:00"}
+
+---
+
+# Table: rag.document_versions
+## Columns
+- version_id (bigint)
+- doc_id (bigint)
+- version (integer)
+- content (text)
+- metadata (jsonb)
+- changed_at (timestamp with time zone)
+- changed_by (text)
+
+## Foreign Keys
+- doc_id → rag.documents.doc_id
+
+---
+
+# Table: rag.documents
+## Columns
+- doc_id (bigint)
+- source_type ENUM: 'schema_doc', 'business_rule', 'leakage_scenario', 'sql_template', 'review', 'leakage_reason', 'kpi_glossary', 'join_graph', 'anti_pattern', 'routing_hint', 'enum_reference', 'generated_column', 'metric_definition', 'lineage_doc', 'anomaly_interpretation', 'summary_profile', 'temporal_context'
+- source_id (text)
+- title (text)
+- content (text)
+- content_lang (text)
+- metadata (jsonb)
+- embedding_type ENUM: 'schema', 'business_rule', 'sql_template', 'review', 'metric', 'routing', 'glossary', 'lineage'
+- priority (smallint)
+- retrieval_weight (numeric)
+- version (integer)
+- is_active (boolean)
+- needs_reembedding (boolean)
+- created_at (timestamp with time zone)
+- updated_at (timestamp with time zone)
+- content_tsv (tsvector) [GENERATED — do not filter on directly]
+
+## Sample Rows
+{"doc_id": 37260, "source_type": "leakage_reason", "source_id": "feedfe790aa34b0480427f43ae108563", "title": "Leakage Report: feedfe790aa34b0480427f43ae108563", "content": "Order ID: feedfe790aa34b0480427f43ae108563\nRisk Tier: Medium\nAnomaly Score: 0.421309\nOrder Status: canceled\nPayment Status: approved\nTotal Revenue: 396.98 EGP\nProfit Margin: 0.4915\nShipping Delay Days: 0\nLeakage Scenarios: shipping_failed_review_exists\nCustomer Segment: Low Value\nCity: Hurghada", "content_lang": "ar+en", "metadata": {"order_id": "feedfe790aa34b0480427f43ae108563", "risk_tier": "Medium", "anomaly_flag": 1, "order_status": "canceled", "total_revenue": 396.98, "embedding_type": "business_rule", "ensemble_score": 0.421309, "payment_status": "approved", "source_type_filter": "leakage_reason"}, "embedding_type": "business_rule", "priority": 5, "retrieval_weight": 0.8, "version": 1, "is_active": true, "needs_reembedding": false, "created_at": "2026-05-22 15:11:20.853712+00:00", "updated_at": "2026-05-22 15:11:20.853712+00:00", "content_tsv": "'0':26,64 '0.421309':9,47 '0.4915':22,60 '396.98':18,56 'anomali':45 'anomaly':7 'approv':53 'approved':15 'cancel':50 'canceled':12 'citi':75 'city':37 'custom':71 'customer':33 'day':63 'days':25 'delay':24,62 'egp':19,57 'exist':70 'exists':32 'fail':68 'failed':30 'feedfe790aa34b0480427f43ae108563':3,41 'hurghada':38,76 'id':2,40 'leakag':65 'leakage':27 'low':35,73 'margin':21,59 'medium':6,44 'order':1,10,39,48 'payment':13,51 'profit':20,58 'revenu':55 'revenue':17 'review':31,69 'risk':4,42 'scenario':66 'scenarios':28 'score':8,46 'segment':34,72 'ship':61,67 'shipping':23,29 'status':11,14,49,52 'tier':5,43 'total':16,54 'valu':74 'value':36"}
+{"doc_id": 37366, "source_type": "leakage_reason", "source_id": "74d9408e46a8454eab23d51aa345075f", "title": "Leakage Report: 74d9408e46a8454eab23d51aa345075f", "content": "Order ID: 74d9408e46a8454eab23d51aa345075f\nRisk Tier: Medium\nAnomaly Score: 0.430213\nOrder Status: delivered\nPayment Status: approved\nTotal Revenue: 13029.81 EGP\nProfit Margin: 0.8187\nShipping Delay Days: 0\nLeakage Scenarios: statistical_outlier\nCustomer Segment: Low Value\nCity: Minya", "content_lang": "ar+en", "metadata": {"order_id": "74d9408e46a8454eab23d51aa345075f", "risk_tier": "Medium", "anomaly_flag": 1, "order_status": "delivered", "total_revenue": 13029.81, "embedding_type": "business_rule", "ensemble_score": 0.430213, "payment_status": "approved", "source_type_filter": "leakage_reason"}, "embedding_type": "business_rule", "priority": 5, "retrieval_weight": 0.8, "version": 1, "is_active": true, "needs_reembedding": false, "created_at": "2026-05-22 15:11:20.853712+00:00", "updated_at": "2026-05-22 15:11:20.853712+00:00", "content_tsv": "'0':26,62 '0.430213':9,45 '0.8187':22,58 '13029.81':18,54 '74d9408e46a8454eab23d51aa345075f':3,39 'anomali':43 'anomaly':7 'approv':51 'approved':15 'citi':71 'city':35 'custom':67 'customer':31 'day':61 'days':25 'delay':24,60 'deliv':48 'delivered':12 'egp':19,55 'id':2,38 'leakag':63 'leakage':27 'low':33,69 'margin':21,57 'medium':6,42 'minya':36,72 'order':1,10,37,46 'outlier':30,66 'payment':13,49 'profit':20,56 'revenu':53 'revenue':17 'risk':4,40 'scenario':64 'scenarios':28 'score':8,44 'segment':32,68 'ship':59 'shipping':23 'statist':65 'statistical':29 'status':11,14,47,50 'tier':5,41 'total':16,52 'valu':70 'value':34"}
+
+---
+
+# Table: rag.metrics_embeddings
+## Columns
+- doc_id (bigint)
+- embedding (USER-DEFINED)
+- created_at (timestamp with time zone)
+
+## Foreign Keys
+- doc_id → rag.documents.doc_id
+
+## Sample Rows
+{"doc_id": 36, "created_at": "2026-05-22 17:06:03.147198+00:00"}
+{"doc_id": 55, "created_at": "2026-05-22 17:06:03.147198+00:00"}
+
+---
+
+# Table: rag.retrieval_cache
+## Columns
+- cache_key (text)
+- query_hash (text)
+- result_json (jsonb)
+- hit_count (integer)
+- expires_at (timestamp with time zone)
+- created_at (timestamp with time zone)
+
+---
+
+# Table: rag.retrieval_log
+## Columns
+- log_id (bigint)
+- query_text (text)
+- query_intent ENUM: 'simple_lookup', 'aggregation', 'anomaly_investigation', 'trend_analysis', 'sentiment_analysis', 'schema_discovery', 'kpi_definition', 'sql_generation'
+- retrieved_doc_ids (ARRAY)
+- generated_sql (text)
+- sql_valid (boolean)
+- sql_executed (boolean)
+- execution_error (text)
+- hallucination_flag (boolean)
+- confidence_score (numeric)
+- latency_ms (integer)
+- created_at (timestamp with time zone)
+
+---
+
+# Table: rag.review_embeddings
+## Columns
+- doc_id (bigint)
+- embedding (USER-DEFINED)
+- created_at (timestamp with time zone)
+
+## Foreign Keys
+- doc_id → rag.documents.doc_id
+
+## Sample Rows
+{"doc_id": 122, "created_at": "2026-05-22 17:10:02.219386+00:00"}
+{"doc_id": 123, "created_at": "2026-05-22 17:10:02.219386+00:00"}
+
+---
+
+# Table: rag.schema_embeddings
+## Columns
+- doc_id (bigint)
+- embedding (USER-DEFINED)
+- created_at (timestamp with time zone)
+
+## Foreign Keys
+- doc_id → rag.documents.doc_id
+
+## Sample Rows
+{"doc_id": 42, "created_at": "2026-05-22 17:06:03.147198+00:00"}
+{"doc_id": 44, "created_at": "2026-05-22 17:06:03.147198+00:00"}
+
+---
+
+# Table: rag.sql_guard
+## Columns
+- guard_id (integer)
+- guard_type (text)
+- pattern (text)
+- message (text)
+- guard_mode (text)
+
+## Sample Rows
+{"guard_id": 1, "guard_type": "fake_column", "pattern": "orders.status", "message": "Column does not exist. Use orders.order_status", "guard_mode": "contains"}
+{"guard_id": 2, "guard_type": "fake_column", "pattern": "orders.amount", "message": "Column does not exist. Use orders.total_revenue", "guard_mode": "contains"}
+
+---
+
+# Table: rag.v_pending_embedding
+## Columns
+- doc_id (bigint)
+- source_type ENUM: 'schema_doc', 'business_rule', 'leakage_scenario', 'sql_template', 'review', 'leakage_reason', 'kpi_glossary', 'join_graph', 'anti_pattern', 'routing_hint', 'enum_reference', 'generated_column', 'metric_definition', 'lineage_doc', 'anomaly_interpretation', 'summary_profile', 'temporal_context'
+- embedding_type ENUM: 'schema', 'business_rule', 'sql_template', 'review', 'metric', 'routing', 'glossary', 'lineage'
+- title (text)
+- updated_at (timestamp with time zone)
+
+---
+
+# Materialized View: ml_output.mv_leakage_by_scenario
+Description: One row per leakage scenario. No JOINs needed. ORDER BY revenue_at_risk DESC for most costly scenario.
+Columns: scenario, total_orders, revenue_at_risk, avg_anomaly_score, avg_profit_margin
+
+---
+
+# Materialized View: ml_output.mv_leakage_dashboard
+Description: PRE-JOINED order view. ALWAYS use for chatbot order queries. LATERAL join limits to 1 review (latest) per order. Refresh daily.
+Columns: order_id, customer_id, customer_name, customer_city, customer_segment, order_status, order_purchase_timestamp, order_month, order_quarter, order_year, total_revenue, total_profit, profit_margin, avg_discount_pct, shipping_delay_days, invoice_available, inventory_mismatch, payment_status, payment_type, payment_value, seller_paid_twice, shipping_status, shipping_fee_charged, actual_logistics_cost, fee_calculation_error, fee_to_cost_ratio, carrier, rating, sentiment, review_comment, ensemble_score, anomaly_flag, risk_tier, leakage_scenarios, leakage_reason
+
+---
+
+# Materialized View: ml_output.mv_monthly_leakage
+Description: Monthly leakage aggregates. No JOINs needed. month_label is human-readable e.g. "April 2024".
+Columns: month, month_label, total_orders, leakage_orders, leakage_rate_pct, total_revenue, revenue_at_risk, total_profit, avg_profit_margin
+
+---
+
+# Materialized View: ml_output.mv_seller_risk
+Description: Seller-level leakage aggregates. No JOINs needed. ORDER BY leakage_rate_pct DESC for riskiest sellers.
+Columns: seller_id, seller_name, seller_city, seller_rating, return_rate, payment_disputes, total_orders, leakage_orders, leakage_rate_pct, total_revenue, avg_anomaly_score
+
+---
+

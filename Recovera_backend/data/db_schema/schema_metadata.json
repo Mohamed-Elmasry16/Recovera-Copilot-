@@ -1,0 +1,128 @@
+[
+  {
+    "table_schema": "ecommerce",
+    "table_name": "customers",
+    "description": "Customer profiles: LTV, segment, churn risk, city.",
+    "row_count_approx": 253574,
+    "key_columns": "customer_id (PK), segment, churn_risk, lifetime_value, customer_city",
+    "join_hint": "JOIN orders ON customer_id.",
+    "chatbot_use_case": "Segment analysis, city breakdown, high-value customers."
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "order_items",
+    "description": "Line items. Many per order. Links to sellers and products.",
+    "row_count_approx": 435481,
+    "key_columns": "order_id (FK), seller_id (FK), product_id (FK), price_after_discount",
+    "join_hint": "JOIN orders ON order_id. JOIN sellers ON seller_id.",
+    "chatbot_use_case": "Product revenue, seller contribution, item-level discounts."
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "orders",
+    "description": "Core fact table. Revenue, profit, discount, status, timestamps. All money EGP.",
+    "row_count_approx": 298323,
+    "key_columns": "order_id (PK), customer_id, order_status, total_revenue, profit_margin, order_month, order_quarter",
+    "join_hint": "JOIN customers ON customer_id. JOIN payments ON order_id AND payment_sequential=1.",
+    "chatbot_use_case": "Monthly/quarterly revenue, profit, leakage counts. Use order_month for GROUP BY."
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "payments",
+    "description": "Payment records. Multiple rows per order. payment_sequential=1 is primary.",
+    "row_count_approx": 297538,
+    "key_columns": "order_id (FK), payment_type, payment_status, payment_value, seller_paid_twice",
+    "join_hint": "JOIN orders ON order_id. Filter payment_sequential=1.",
+    "chatbot_use_case": "Payment method breakdown, unpaid/partial orders, COD analysis."
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "refunds",
+    "description": "~7800 refund records. Flags for duplicates and early processing.",
+    "row_count_approx": 7808,
+    "key_columns": "order_id (FK), refund_amount, refund_reason, duplicate_refund, processed_before_cancel",
+    "join_hint": "JOIN orders ON order_id.",
+    "chatbot_use_case": "Refund volume, duplicate refund detection, early refund flags."
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "reviews",
+    "description": "~262K reviews. Rating, sentiment, full text. WARNING: multiple per order possible.",
+    "row_count_approx": 262935,
+    "key_columns": "order_id (FK), rating, sentiment, has_comment",
+    "join_hint": "JOIN orders ON order_id. BEWARE: causes row duplication. Use mv_leakage_dashboard instead.",
+    "chatbot_use_case": "Sentiment analysis, low-rating alerts, review text search."
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "sellers",
+    "description": "Seller profiles with rating and risk metrics.",
+    "row_count_approx": 5000,
+    "key_columns": "seller_id (PK), seller_name, seller_rating, return_rate, payment_disputes",
+    "join_hint": "JOIN order_items ON seller_id.",
+    "chatbot_use_case": "Seller risk ranking, high-dispute sellers."
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "shipping",
+    "description": "One row per order. Carrier, status, fees, logistics cost.",
+    "row_count_approx": 298323,
+    "key_columns": "order_id (FK), shipping_status, carrier, fee_to_cost_ratio, fee_calculation_error",
+    "join_hint": "JOIN orders ON order_id.",
+    "chatbot_use_case": "Carrier performance, never_shipped detection, fee overcharge analysis."
+  },
+  {
+    "table_schema": "ml_output",
+    "table_name": "mv_leakage_by_scenario",
+    "description": "One row per leakage scenario with counts and revenue impact.",
+    "row_count_approx": 20,
+    "key_columns": "scenario, total_orders, revenue_at_risk, avg_anomaly_score",
+    "join_hint": "No joins needed.",
+    "chatbot_use_case": "Which leakage type is most common or costly."
+  },
+  {
+    "table_schema": "ml_output",
+    "table_name": "mv_leakage_dashboard",
+    "description": "PRE-JOINED materialized view. ALWAYS use for order-level chatbot queries. 1 review per order (latest via LATERAL) — zero duplication risk.",
+    "row_count_approx": 298323,
+    "key_columns": "order_id, order_status, total_revenue, profit_margin, anomaly_flag, risk_tier, leakage_reason, sentiment",
+    "join_hint": "No joins needed.",
+    "chatbot_use_case": "PREFERRED for: order lookup, anomaly lists, cross-dimension queries."
+  },
+  {
+    "table_schema": "ml_output",
+    "table_name": "mv_monthly_leakage",
+    "description": "Monthly aggregates: order counts, leakage rate, revenue at risk.",
+    "row_count_approx": 24,
+    "key_columns": "month, total_orders, leakage_orders, leakage_rate_pct, revenue_at_risk, total_profit",
+    "join_hint": "No joins needed.",
+    "chatbot_use_case": "Monthly trend, worst month, leakage rate over time."
+  },
+  {
+    "table_schema": "ml_output",
+    "table_name": "mv_seller_risk",
+    "description": "Seller-level leakage aggregates.",
+    "row_count_approx": 5000,
+    "key_columns": "seller_id, seller_name, leakage_rate_pct, total_revenue, avg_anomaly_score",
+    "join_hint": "No joins needed.",
+    "chatbot_use_case": "Top risky sellers, seller leakage ranking."
+  },
+  {
+    "table_schema": "ml_output",
+    "table_name": "order_leakage_reasons",
+    "description": "Junction: one row per (order, leakage_type). PREFERRED for scenario filtering.",
+    "row_count_approx": 15000,
+    "key_columns": "order_id (FK), leakage_type (ENUM), confidence",
+    "join_hint": "JOIN orders ON order_id.",
+    "chatbot_use_case": "Show all orders with a specific scenario."
+  },
+  {
+    "table_schema": "rag",
+    "table_name": "chunks",
+    "description": "Vector store. Each row is one text chunk with 1536-dim embedding.",
+    "row_count_approx": 0,
+    "key_columns": "chunk_id, source_type, source_id, chunk_text, embedding",
+    "join_hint": "Use rag.search_chunks() function for similarity search.",
+    "chatbot_use_case": "RAG retrieval: find relevant reviews or leakage explanations by semantic similarity."
+  }
+]

@@ -1,0 +1,99 @@
+[
+  {
+    "id": "dual_region_ar",
+    "question": "ايه اكثر مناطق تحقيق للايرادات واكثر المناطق تحقيق للخسائر",
+    "expected_family": "dual_ranking",
+    "expected_intent": "dual_ranking",
+    "expected_template": "dual_region_leakage_revenue",
+    "expected_chart": "bar",
+    "notes": "Must use independent rankings, not a single ORDER BY."
+  },
+  {
+    "id": "monthly_leakage_trend",
+    "question": "show monthly leakage trend",
+    "expected_family": "trend",
+    "expected_intent": "trend_analysis",
+    "expected_template": "monthly_leakage_trend",
+    "expected_chart": "line"
+  },
+  {
+    "id": "seller_rate",
+    "question": "top risky sellers by leakage rate",
+    "expected_family": "seller",
+    "expected_intent": "seller_risk",
+    "expected_template": "seller_risk_ranking",
+    "expected_chart": "bar"
+  },
+  {
+    "id": "scenario_cost",
+    "question": "which leakage scenarios cost the most money",
+    "expected_family": "scenario",
+    "expected_intent": "leakage_detection",
+    "expected_template": "scenario_ranking",
+    "expected_chart": "bar"
+  },
+  {
+    "id": "campaign_roi",
+    "question": "campaign ROI by channel",
+    "expected_family": "campaign",
+    "expected_intent": "campaign_analysis",
+    "expected_template": "campaign_performance",
+    "expected_chart": "bar"
+  },
+  {
+    "id": "web_sessions",
+    "question": "website sessions conversion trend",
+    "expected_family": "web_analytics",
+    "expected_intent": "web_analytics",
+    "expected_template_prefix": "web_",
+    "expected_chart": "line"
+  },
+  {
+    "id": "payment_cod",
+    "question": "COD unpaid orders leakage",
+    "expected_family": "payment",
+    "expected_intent": "payment_leakage",
+    "expected_template": "payment_leakage",
+    "expected_chart": "bar"
+  },
+  {
+    "id": "shipping_delay",
+    "question": "shipping delay leakage by carrier",
+    "expected_family": "shipping",
+    "expected_intent": "shipping_leakage",
+    "expected_template": "shipping_leakage",
+    "expected_chart": "bar"
+  },
+  {
+    "id": "refund_reason",
+    "question": "duplicate refund amount by reason",
+    "expected_family": "refund",
+    "expected_intent": "refund_analysis",
+    "expected_template": "refund_analysis",
+    "expected_chart": "bar"
+  },
+  {
+    "id": "product_revenue",
+    "question": "product categories with highest revenue",
+    "expected_family": "product",
+    "expected_intent": "product_analysis",
+    "expected_template": "product_category_analysis",
+    "expected_chart": "bar"
+  },
+  {
+    "id": "kpi_ar",
+    "question": "ملخص اجمالي التسرب والايرادات",
+    "expected_family": "kpi",
+    "expected_intent": "aggregation",
+    "expected_template": "dashboard_kpi",
+    "expected_chart": "none"
+  },
+  {
+    "id": "review_rag_only",
+    "question": "what are customers complaining about in negative reviews",
+    "expected_family": "reviews",
+    "expected_intent": "review_analysis",
+    "expected_route": "rag_only",
+    "expected_chart": "none"
+  }
+]

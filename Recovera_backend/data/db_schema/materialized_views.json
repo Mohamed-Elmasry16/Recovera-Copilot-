@@ -1,0 +1,90 @@
+[
+  {
+    "schemaname": "ml_output",
+    "matviewname": "mv_leakage_by_scenario",
+    "columns": [
+      "scenario",
+      "total_orders",
+      "revenue_at_risk",
+      "avg_anomaly_score",
+      "avg_profit_margin"
+    ],
+    "mv_comment": "One row per leakage scenario. No JOINs needed. ORDER BY revenue_at_risk DESC for most costly scenario."
+  },
+  {
+    "schemaname": "ml_output",
+    "matviewname": "mv_leakage_dashboard",
+    "columns": [
+      "order_id",
+      "customer_id",
+      "customer_name",
+      "customer_city",
+      "customer_segment",
+      "order_status",
+      "order_purchase_timestamp",
+      "order_month",
+      "order_quarter",
+      "order_year",
+      "total_revenue",
+      "total_profit",
+      "profit_margin",
+      "avg_discount_pct",
+      "shipping_delay_days",
+      "invoice_available",
+      "inventory_mismatch",
+      "payment_status",
+      "payment_type",
+      "payment_value",
+      "seller_paid_twice",
+      "shipping_status",
+      "shipping_fee_charged",
+      "actual_logistics_cost",
+      "fee_calculation_error",
+      "fee_to_cost_ratio",
+      "carrier",
+      "rating",
+      "sentiment",
+      "review_comment",
+      "ensemble_score",
+      "anomaly_flag",
+      "risk_tier",
+      "leakage_scenarios",
+      "leakage_reason"
+    ],
+    "mv_comment": "PRE-JOINED order view. ALWAYS use for chatbot order queries. LATERAL join limits to 1 review (latest) per order. Refresh daily."
+  },
+  {
+    "schemaname": "ml_output",
+    "matviewname": "mv_monthly_leakage",
+    "columns": [
+      "month",
+      "month_label",
+      "total_orders",
+      "leakage_orders",
+      "leakage_rate_pct",
+      "total_revenue",
+      "revenue_at_risk",
+      "total_profit",
+      "avg_profit_margin"
+    ],
+    "mv_comment": "Monthly leakage aggregates. No JOINs needed. month_label is human-readable e.g. \"April 2024\"."
+  },
+  {
+    "schemaname": "ml_output",
+    "matviewname": "mv_seller_risk",
+    "columns": [
+      "seller_id",
+      "seller_name",
+      "seller_city",
+      "seller_rating",
+      "return_rate",
+      "payment_disputes",
+      "total_orders",
+      "leakage_orders",
+      "leakage_rate_pct",
+      "total_revenue",
+      "avg_anomaly_score"
+    ],
+    "mv_comment": "Seller-level leakage aggregates. No JOINs needed. ORDER BY leakage_rate_pct DESC for riskiest sellers."
+  }
+]

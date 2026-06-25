@@ -1,0 +1,7 @@
+[
+  {
+    "schemaname": "rag",
+    "viewname": "v_pending_embedding",
+    "definition": " SELECT doc_id,\n    source_type,\n    embedding_type,\n    title,\n    updated_at\n   FROM rag.documents\n  WHERE ((needs_reembedding = true) AND (is_active = true))\n  ORDER BY priority DESC, updated_at DESC;"
+  }
+]

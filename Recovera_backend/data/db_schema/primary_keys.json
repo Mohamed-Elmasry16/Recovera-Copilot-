@@ -1,0 +1,704 @@
+[
+  {
+    "table_schema": "ecommerce",
+    "table_name": "customers",
+    "column_name": "customer_id",
+    "constraint_name": "customers_pkey"
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "geolocation",
+    "column_name": "id",
+    "constraint_name": "geolocation_pkey"
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "order_items",
+    "column_name": "id",
+    "constraint_name": "order_items_pkey"
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "orders",
+    "column_name": "order_id",
+    "constraint_name": "orders_pkey"
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "payments",
+    "column_name": "id",
+    "constraint_name": "payments_pkey"
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "products",
+    "column_name": "product_id",
+    "constraint_name": "products_pkey"
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "refunds",
+    "column_name": "refund_id",
+    "constraint_name": "refunds_pkey"
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "reviews",
+    "column_name": "review_id",
+    "constraint_name": "reviews_pkey"
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "sellers",
+    "column_name": "seller_id",
+    "constraint_name": "sellers_pkey"
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "shipping",
+    "column_name": "shipping_id",
+    "constraint_name": "shipping_pkey"
+  },
+  {
+    "table_schema": "marketing",
+    "table_name": "campaign_attribution",
+    "column_name": "id",
+    "constraint_name": "campaign_attribution_pkey"
+  },
+  {
+    "table_schema": "marketing",
+    "table_name": "customer_interactions",
+    "column_name": "interaction_id",
+    "constraint_name": "customer_interactions_pkey"
+  },
+  {
+    "table_schema": "marketing",
+    "table_name": "leads_closed",
+    "column_name": "mql_id",
+    "constraint_name": "leads_closed_pkey"
+  },
+  {
+    "table_schema": "marketing",
+    "table_name": "leads_qualified",
+    "column_name": "mql_id",
+    "constraint_name": "leads_qualified_pkey"
+  },
+  {
+    "table_schema": "marketing",
+    "table_name": "marketing_campaigns",
+    "column_name": "campaign_id",
+    "constraint_name": "marketing_campaigns_pkey"
+  },
+  {
+    "table_schema": "marketing",
+    "table_name": "website_sessions",
+    "column_name": "session_id",
+    "constraint_name": "website_sessions_pkey"
+  },
+  {
+    "table_schema": "ml_output",
+    "table_name": "chatbot_conversations",
+    "column_name": "id",
+    "constraint_name": "chatbot_conversations_pkey"
+  },
+  {
+    "table_schema": "ml_output",
+    "table_name": "chatbot_enums",
+    "column_name": "enum_value",
+    "constraint_name": "chatbot_enums_pkey"
+  },
+  {
+    "table_schema": "ml_output",
+    "table_name": "chatbot_enums",
+    "column_name": "enum_name",
+    "constraint_name": "chatbot_enums_pkey"
+  },
+  {
+    "table_schema": "ml_output",
+    "table_name": "chatbot_prompt_versions",
+    "column_name": "version_id",
+    "constraint_name": "chatbot_prompt_versions_pkey"
+  },
+  {
+    "table_schema": "ml_output",
+    "table_name": "chatbot_query_log",
+    "column_name": "id",
+    "constraint_name": "chatbot_query_log_pkey"
+  },
+  {
+    "table_schema": "ml_output",
+    "table_name": "order_anomaly_scores",
+    "column_name": "order_id",
+    "constraint_name": "order_anomaly_scores_pkey"
+  },
+  {
+    "table_schema": "ml_output",
+    "table_name": "order_leakage_reasons",
+    "column_name": "leakage_type",
+    "constraint_name": "order_leakage_reasons_pkey"
+  },
+  {
+    "table_schema": "ml_output",
+    "table_name": "order_leakage_reasons",
+    "column_name": "order_id",
+    "constraint_name": "order_leakage_reasons_pkey"
+  },
+  {
+    "table_schema": "ml_output",
+    "table_name": "schema_metadata",
+    "column_name": "table_name",
+    "constraint_name": "schema_metadata_pkey"
+  },
+  {
+    "table_schema": "ml_output",
+    "table_name": "schema_metadata",
+    "column_name": "table_schema",
+    "constraint_name": "schema_metadata_pkey"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_aggregate",
+    "column_name": "aggfnoid",
+    "constraint_name": "pg_aggregate_fnoid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_am",
+    "column_name": "oid",
+    "constraint_name": "pg_am_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_amop",
+    "column_name": "oid",
+    "constraint_name": "pg_amop_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_amproc",
+    "column_name": "oid",
+    "constraint_name": "pg_amproc_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_attrdef",
+    "column_name": "oid",
+    "constraint_name": "pg_attrdef_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_attribute",
+    "column_name": "attrelid",
+    "constraint_name": "pg_attribute_relid_attnum_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_attribute",
+    "column_name": "attnum",
+    "constraint_name": "pg_attribute_relid_attnum_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_auth_members",
+    "column_name": "oid",
+    "constraint_name": "pg_auth_members_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_authid",
+    "column_name": "oid",
+    "constraint_name": "pg_authid_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_cast",
+    "column_name": "oid",
+    "constraint_name": "pg_cast_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_class",
+    "column_name": "oid",
+    "constraint_name": "pg_class_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_collation",
+    "column_name": "oid",
+    "constraint_name": "pg_collation_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_constraint",
+    "column_name": "oid",
+    "constraint_name": "pg_constraint_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_conversion",
+    "column_name": "oid",
+    "constraint_name": "pg_conversion_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_database",
+    "column_name": "oid",
+    "constraint_name": "pg_database_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_db_role_setting",
+    "column_name": "setdatabase",
+    "constraint_name": "pg_db_role_setting_databaseid_rol_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_db_role_setting",
+    "column_name": "setrole",
+    "constraint_name": "pg_db_role_setting_databaseid_rol_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_default_acl",
+    "column_name": "oid",
+    "constraint_name": "pg_default_acl_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_description",
+    "column_name": "classoid",
+    "constraint_name": "pg_description_o_c_o_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_description",
+    "column_name": "objoid",
+    "constraint_name": "pg_description_o_c_o_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_description",
+    "column_name": "objsubid",
+    "constraint_name": "pg_description_o_c_o_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_enum",
+    "column_name": "oid",
+    "constraint_name": "pg_enum_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_event_trigger",
+    "column_name": "oid",
+    "constraint_name": "pg_event_trigger_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_extension",
+    "column_name": "oid",
+    "constraint_name": "pg_extension_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_foreign_data_wrapper",
+    "column_name": "oid",
+    "constraint_name": "pg_foreign_data_wrapper_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_foreign_server",
+    "column_name": "oid",
+    "constraint_name": "pg_foreign_server_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_foreign_table",
+    "column_name": "ftrelid",
+    "constraint_name": "pg_foreign_table_relid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_index",
+    "column_name": "indexrelid",
+    "constraint_name": "pg_index_indexrelid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_inherits",
+    "column_name": "inhseqno",
+    "constraint_name": "pg_inherits_relid_seqno_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_inherits",
+    "column_name": "inhrelid",
+    "constraint_name": "pg_inherits_relid_seqno_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_init_privs",
+    "column_name": "objoid",
+    "constraint_name": "pg_init_privs_o_c_o_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_init_privs",
+    "column_name": "classoid",
+    "constraint_name": "pg_init_privs_o_c_o_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_init_privs",
+    "column_name": "objsubid",
+    "constraint_name": "pg_init_privs_o_c_o_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_language",
+    "column_name": "oid",
+    "constraint_name": "pg_language_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_largeobject",
+    "column_name": "loid",
+    "constraint_name": "pg_largeobject_loid_pn_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_largeobject",
+    "column_name": "pageno",
+    "constraint_name": "pg_largeobject_loid_pn_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_largeobject_metadata",
+    "column_name": "oid",
+    "constraint_name": "pg_largeobject_metadata_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_namespace",
+    "column_name": "oid",
+    "constraint_name": "pg_namespace_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_opclass",
+    "column_name": "oid",
+    "constraint_name": "pg_opclass_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_operator",
+    "column_name": "oid",
+    "constraint_name": "pg_operator_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_opfamily",
+    "column_name": "oid",
+    "constraint_name": "pg_opfamily_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_parameter_acl",
+    "column_name": "oid",
+    "constraint_name": "pg_parameter_acl_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_partitioned_table",
+    "column_name": "partrelid",
+    "constraint_name": "pg_partitioned_table_partrelid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_policy",
+    "column_name": "oid",
+    "constraint_name": "pg_policy_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_proc",
+    "column_name": "oid",
+    "constraint_name": "pg_proc_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_publication",
+    "column_name": "oid",
+    "constraint_name": "pg_publication_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_publication_namespace",
+    "column_name": "oid",
+    "constraint_name": "pg_publication_namespace_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_publication_rel",
+    "column_name": "oid",
+    "constraint_name": "pg_publication_rel_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_range",
+    "column_name": "rngtypid",
+    "constraint_name": "pg_range_rngtypid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_replication_origin",
+    "column_name": "roident",
+    "constraint_name": "pg_replication_origin_roiident_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_rewrite",
+    "column_name": "oid",
+    "constraint_name": "pg_rewrite_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_seclabel",
+    "column_name": "classoid",
+    "constraint_name": "pg_seclabel_object_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_seclabel",
+    "column_name": "provider",
+    "constraint_name": "pg_seclabel_object_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_seclabel",
+    "column_name": "objsubid",
+    "constraint_name": "pg_seclabel_object_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_seclabel",
+    "column_name": "objoid",
+    "constraint_name": "pg_seclabel_object_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_sequence",
+    "column_name": "seqrelid",
+    "constraint_name": "pg_sequence_seqrelid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_shdescription",
+    "column_name": "objoid",
+    "constraint_name": "pg_shdescription_o_c_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_shdescription",
+    "column_name": "classoid",
+    "constraint_name": "pg_shdescription_o_c_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_shseclabel",
+    "column_name": "objoid",
+    "constraint_name": "pg_shseclabel_object_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_shseclabel",
+    "column_name": "classoid",
+    "constraint_name": "pg_shseclabel_object_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_shseclabel",
+    "column_name": "provider",
+    "constraint_name": "pg_shseclabel_object_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_statistic",
+    "column_name": "stainherit",
+    "constraint_name": "pg_statistic_relid_att_inh_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_statistic",
+    "column_name": "starelid",
+    "constraint_name": "pg_statistic_relid_att_inh_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_statistic",
+    "column_name": "staattnum",
+    "constraint_name": "pg_statistic_relid_att_inh_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_statistic_ext",
+    "column_name": "oid",
+    "constraint_name": "pg_statistic_ext_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_statistic_ext_data",
+    "column_name": "stxdinherit",
+    "constraint_name": "pg_statistic_ext_data_stxoid_inh_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_statistic_ext_data",
+    "column_name": "stxoid",
+    "constraint_name": "pg_statistic_ext_data_stxoid_inh_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_subscription",
+    "column_name": "oid",
+    "constraint_name": "pg_subscription_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_subscription_rel",
+    "column_name": "srrelid",
+    "constraint_name": "pg_subscription_rel_srrelid_srsubid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_subscription_rel",
+    "column_name": "srsubid",
+    "constraint_name": "pg_subscription_rel_srrelid_srsubid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_tablespace",
+    "column_name": "oid",
+    "constraint_name": "pg_tablespace_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_transform",
+    "column_name": "oid",
+    "constraint_name": "pg_transform_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_trigger",
+    "column_name": "oid",
+    "constraint_name": "pg_trigger_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_ts_config",
+    "column_name": "oid",
+    "constraint_name": "pg_ts_config_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_ts_config_map",
+    "column_name": "mapcfg",
+    "constraint_name": "pg_ts_config_map_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_ts_config_map",
+    "column_name": "mapseqno",
+    "constraint_name": "pg_ts_config_map_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_ts_config_map",
+    "column_name": "maptokentype",
+    "constraint_name": "pg_ts_config_map_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_ts_dict",
+    "column_name": "oid",
+    "constraint_name": "pg_ts_dict_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_ts_parser",
+    "column_name": "oid",
+    "constraint_name": "pg_ts_parser_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_ts_template",
+    "column_name": "oid",
+    "constraint_name": "pg_ts_template_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_type",
+    "column_name": "oid",
+    "constraint_name": "pg_type_oid_index"
+  },
+  {
+    "table_schema": "pg_catalog",
+    "table_name": "pg_user_mapping",
+    "column_name": "oid",
+    "constraint_name": "pg_user_mapping_oid_index"
+  },
+  {
+    "table_schema": "rag",
+    "table_name": "business_embeddings",
+    "column_name": "doc_id",
+    "constraint_name": "business_embeddings_pkey"
+  },
+  {
+    "table_schema": "rag",
+    "table_name": "document_versions",
+    "column_name": "version_id",
+    "constraint_name": "document_versions_pkey"
+  },
+  {
+    "table_schema": "rag",
+    "table_name": "documents",
+    "column_name": "doc_id",
+    "constraint_name": "documents_pkey"
+  },
+  {
+    "table_schema": "rag",
+    "table_name": "metrics_embeddings",
+    "column_name": "doc_id",
+    "constraint_name": "metrics_embeddings_pkey"
+  },
+  {
+    "table_schema": "rag",
+    "table_name": "retrieval_cache",
+    "column_name": "cache_key",
+    "constraint_name": "retrieval_cache_pkey"
+  },
+  {
+    "table_schema": "rag",
+    "table_name": "retrieval_log",
+    "column_name": "log_id",
+    "constraint_name": "retrieval_log_pkey"
+  },
+  {
+    "table_schema": "rag",
+    "table_name": "review_embeddings",
+    "column_name": "doc_id",
+    "constraint_name": "review_embeddings_pkey"
+  },
+  {
+    "table_schema": "rag",
+    "table_name": "schema_embeddings",
+    "column_name": "doc_id",
+    "constraint_name": "schema_embeddings_pkey"
+  },
+  {
+    "table_schema": "rag",
+    "table_name": "sql_guard",
+    "column_name": "guard_id",
+    "constraint_name": "sql_guard_pkey"
+  }
+]

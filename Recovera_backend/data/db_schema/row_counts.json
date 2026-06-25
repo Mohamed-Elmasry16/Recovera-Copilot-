@@ -1,0 +1,182 @@
+[
+  {
+    "schema": "ecommerce",
+    "table_name": "customers",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "ecommerce",
+    "table_name": "geolocation",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "ecommerce",
+    "table_name": "order_items",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "ecommerce",
+    "table_name": "orders",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "ecommerce",
+    "table_name": "payments",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "ecommerce",
+    "table_name": "products",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "ecommerce",
+    "table_name": "refunds",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "ecommerce",
+    "table_name": "reviews",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "ecommerce",
+    "table_name": "sellers",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "ecommerce",
+    "table_name": "shipping",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "marketing",
+    "table_name": "campaign_attribution",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "marketing",
+    "table_name": "customer_interactions",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "marketing",
+    "table_name": "leads_closed",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "marketing",
+    "table_name": "leads_qualified",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "marketing",
+    "table_name": "marketing_campaigns",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "marketing",
+    "table_name": "website_sessions",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "ml_output",
+    "table_name": "chatbot_conversations",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "ml_output",
+    "table_name": "chatbot_enums",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "ml_output",
+    "table_name": "chatbot_prompt_versions",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "ml_output",
+    "table_name": "chatbot_query_log",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "ml_output",
+    "table_name": "mv_leakage_by_scenario",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "ml_output",
+    "table_name": "mv_leakage_dashboard",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "ml_output",
+    "table_name": "mv_monthly_leakage",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "ml_output",
+    "table_name": "mv_seller_risk",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "ml_output",
+    "table_name": "order_anomaly_scores",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "ml_output",
+    "table_name": "order_leakage_reasons",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "ml_output",
+    "table_name": "schema_metadata",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "rag",
+    "table_name": "business_embeddings",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "rag",
+    "table_name": "document_versions",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "rag",
+    "table_name": "documents",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "rag",
+    "table_name": "metrics_embeddings",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "rag",
+    "table_name": "retrieval_cache",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "rag",
+    "table_name": "retrieval_log",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "rag",
+    "table_name": "review_embeddings",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "rag",
+    "table_name": "schema_embeddings",
+    "estimated_rows": 0
+  },
+  {
+    "schema": "rag",
+    "table_name": "sql_guard",
+    "estimated_rows": 0
+  }
+]

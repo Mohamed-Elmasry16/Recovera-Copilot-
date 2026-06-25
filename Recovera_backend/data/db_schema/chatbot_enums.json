@@ -1,0 +1,252 @@
+[
+  {
+    "enum_name": "leakage_scenario",
+    "enum_value": "cod_unpaid_after_delivery",
+    "description": "COD delivered but payment_status = unpaid"
+  },
+  {
+    "enum_name": "leakage_scenario",
+    "enum_value": "delayed_delivery_compensation",
+    "description": "shipping_delay_days > 14 triggered compensation"
+  },
+  {
+    "enum_name": "leakage_scenario",
+    "enum_value": "delivered_no_payment",
+    "description": "Delivered but payment record missing"
+  },
+  {
+    "enum_name": "leakage_scenario",
+    "enum_value": "duplicate_refund",
+    "description": "Multiple refunds for same order"
+  },
+  {
+    "enum_name": "leakage_scenario",
+    "enum_value": "fake_delivery_success",
+    "description": "Marked delivered but customer says not received"
+  },
+  {
+    "enum_name": "leakage_scenario",
+    "enum_value": "high_discount_negative_profit",
+    "description": "avg_discount_pct > 0.50 causing negative profit"
+  },
+  {
+    "enum_name": "leakage_scenario",
+    "enum_value": "incorrect_refund_on_delivery",
+    "description": "Refund on delivered non-returned item"
+  },
+  {
+    "enum_name": "leakage_scenario",
+    "enum_value": "inventory_mismatch",
+    "description": "inventory_mismatch = TRUE"
+  },
+  {
+    "enum_name": "leakage_scenario",
+    "enum_value": "logistics_exceeds_revenue",
+    "description": "Logistics cost > revenue — profit_margin < 0"
+  },
+  {
+    "enum_name": "leakage_scenario",
+    "enum_value": "no_invoice_on_completion",
+    "description": "Delivered but invoice_available = FALSE"
+  },
+  {
+    "enum_name": "leakage_scenario",
+    "enum_value": "partial_payment_only",
+    "description": "payment_status = partial"
+  },
+  {
+    "enum_name": "leakage_scenario",
+    "enum_value": "payment_approved_never_shipped",
+    "description": "Paid but shipping_status = never_shipped"
+  },
+  {
+    "enum_name": "leakage_scenario",
+    "enum_value": "refund_before_cancellation",
+    "description": "Refund before order was officially cancelled"
+  },
+  {
+    "enum_name": "leakage_scenario",
+    "enum_value": "repeated_small_refunds",
+    "description": "3+ refunds each < 30 EGP on same order"
+  },
+  {
+    "enum_name": "leakage_scenario",
+    "enum_value": "returned_product_kept",
+    "description": "Return processed but item not sent back"
+  },
+  {
+    "enum_name": "leakage_scenario",
+    "enum_value": "review_contradicts_cancelled",
+    "description": "Order cancelled but customer left positive review"
+  },
+  {
+    "enum_name": "leakage_scenario",
+    "enum_value": "seller_paid_twice",
+    "description": "seller_paid_twice = TRUE in payments"
+  },
+  {
+    "enum_name": "leakage_scenario",
+    "enum_value": "shipped_then_cancelled",
+    "description": "Shipped but order later cancelled"
+  },
+  {
+    "enum_name": "leakage_scenario",
+    "enum_value": "shipping_failed_review_exists",
+    "description": "Shipping failed but positive review submitted"
+  },
+  {
+    "enum_name": "leakage_scenario",
+    "enum_value": "statistical_outlier",
+    "description": "Anomaly detected by the ML model based on statistical distribution only. No specific business leakage reason was identified. Use when user asks for \"weird orders\" or \"unexplained anomalies\"."
+  },
+  {
+    "enum_name": "leakage_scenario",
+    "enum_value": "wrong_shipping_fee",
+    "description": "fee_to_cost_ratio > 2.5"
+  },
+  {
+    "enum_name": "order_status",
+    "enum_value": "canceled",
+    "description": "Order cancelled"
+  },
+  {
+    "enum_name": "order_status",
+    "enum_value": "delivered",
+    "description": "Order delivered to customer"
+  },
+  {
+    "enum_name": "order_status",
+    "enum_value": "invoiced",
+    "description": "Invoice issued, awaiting shipment"
+  },
+  {
+    "enum_name": "order_status",
+    "enum_value": "processing",
+    "description": "Being prepared by seller"
+  },
+  {
+    "enum_name": "order_status",
+    "enum_value": "shipped",
+    "description": "In transit to customer"
+  },
+  {
+    "enum_name": "order_status",
+    "enum_value": "unavailable",
+    "description": "Product unavailable"
+  },
+  {
+    "enum_name": "payment_status",
+    "enum_value": "approved",
+    "description": "Fully paid"
+  },
+  {
+    "enum_name": "payment_status",
+    "enum_value": "missing",
+    "description": "No payment record at all — leakage: delivered_no_payment"
+  },
+  {
+    "enum_name": "payment_status",
+    "enum_value": "partial",
+    "description": "Partially paid — leakage risk"
+  },
+  {
+    "enum_name": "payment_status",
+    "enum_value": "unpaid",
+    "description": "Not paid — high leakage risk"
+  },
+  {
+    "enum_name": "payment_type",
+    "enum_value": "cash_on_delivery",
+    "description": "COD — high risk of unpaid delivery leakage"
+  },
+  {
+    "enum_name": "payment_type",
+    "enum_value": "credit_card",
+    "description": "Credit card"
+  },
+  {
+    "enum_name": "payment_type",
+    "enum_value": "debit_card",
+    "description": "Debit card"
+  },
+  {
+    "enum_name": "payment_type",
+    "enum_value": "voucher",
+    "description": "Voucher or gift card"
+  },
+  {
+    "enum_name": "risk_tier",
+    "enum_value": "Critical",
+    "description": "ensemble_score > 0.80"
+  },
+  {
+    "enum_name": "risk_tier",
+    "enum_value": "High",
+    "description": "ensemble_score 0.65-0.80"
+  },
+  {
+    "enum_name": "risk_tier",
+    "enum_value": "Low",
+    "description": "ensemble_score < 0.40"
+  },
+  {
+    "enum_name": "risk_tier",
+    "enum_value": "Medium",
+    "description": "ensemble_score 0.40-0.65"
+  },
+  {
+    "enum_name": "sentiment",
+    "enum_value": "mixed",
+    "description": "Mixed sentiment"
+  },
+  {
+    "enum_name": "sentiment",
+    "enum_value": "negative",
+    "description": "Negative review — strong leakage signal"
+  },
+  {
+    "enum_name": "sentiment",
+    "enum_value": "neutral",
+    "description": "Neutral review"
+  },
+  {
+    "enum_name": "sentiment",
+    "enum_value": "positive",
+    "description": "Positive review — check if contradicts failed shipping"
+  },
+  {
+    "enum_name": "sentiment",
+    "enum_value": "unknown",
+    "description": "Sentiment not determined"
+  },
+  {
+    "enum_name": "shipping_status",
+    "enum_value": "cancelled",
+    "description": "Shipping cancelled"
+  },
+  {
+    "enum_name": "shipping_status",
+    "enum_value": "delivered",
+    "description": "Successfully delivered"
+  },
+  {
+    "enum_name": "shipping_status",
+    "enum_value": "failed",
+    "description": "Delivery attempt failed"
+  },
+  {
+    "enum_name": "shipping_status",
+    "enum_value": "in_transit",
+    "description": "Currently in transit"
+  },
+  {
+    "enum_name": "shipping_status",
+    "enum_value": "never_shipped",
+    "description": "Paid but never shipped — leakage scenario"
+  },
+  {
+    "enum_name": "shipping_status",
+    "enum_value": "pending",
+    "description": "Awaiting pickup"
+  }
+]

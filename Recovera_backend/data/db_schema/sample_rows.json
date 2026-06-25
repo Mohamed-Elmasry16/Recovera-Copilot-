@@ -1,0 +1,885 @@
+{
+  "ecommerce.customers": [
+    {
+      "customer_id": "35f0740686db45748738bb5960707b8f",
+      "customer_unique_id": "3bfb6860ab044994ba1bda120fbd939d",
+      "customer_zip_code_prefix": 32440,
+      "customer_city": "Cairo",
+      "customer_name": "Amira Sobhy",
+      "lifetime_value": 695.51,
+      "segment": "Low Value",
+      "churn_risk": "High",
+      "total_orders": 3,
+      "avg_order_value": 1423.56,
+      "is_verified": true
+    },
+    {
+      "customer_id": "fc1284546dff49f8beb5d5bc4b97c480",
+      "customer_unique_id": "01bd08143245407eb2727e6deb51f658",
+      "customer_zip_code_prefix": 18060,
+      "customer_city": "Zagazig",
+      "customer_name": "Tarek Fouad",
+      "lifetime_value": 21889.34,
+      "segment": "High Value",
+      "churn_risk": "Low",
+      "total_orders": 18,
+      "avg_order_value": 966.29,
+      "is_verified": true
+    },
+    {
+      "customer_id": "f5b673d6a5274bf9b0f1fe667fdb80e4",
+      "customer_unique_id": "97e0bdc37c9542018a9ff9897a033f72",
+      "customer_zip_code_prefix": 61105,
+      "customer_city": "Shubra El Kheima",
+      "customer_name": "Fatma El-Zahraa",
+      "lifetime_value": 4849.91,
+      "segment": "Mid Value",
+      "churn_risk": "Medium",
+      "total_orders": 26,
+      "avg_order_value": 2265.33,
+      "is_verified": true
+    }
+  ],
+  "ecommerce.geolocation": [
+    {
+      "id": 1,
+      "geolocation_zip_code_prefix": 10000,
+      "geolocation_lat": 29.987375,
+      "geolocation_lng": 32.550521,
+      "geolocation_city": "Suez"
+    },
+    {
+      "id": 2,
+      "geolocation_zip_code_prefix": 10001,
+      "geolocation_lat": 30.078774,
+      "geolocation_lng": 31.309323,
+      "geolocation_city": "Cairo"
+    },
+    {
+      "id": 3,
+      "geolocation_zip_code_prefix": 10002,
+      "geolocation_lat": 31.179239,
+      "geolocation_lng": 29.953272,
+      "geolocation_city": "Alexandria"
+    }
+  ],
+  "ecommerce.order_items": [
+    {
+      "id": 1,
+      "order_id": "0bf48b479576466bacfdf867df732390",
+      "order_item_id": 1,
+      "product_id": "b4a49647974f4341811127fa80d94a7b",
+      "seller_id": "afd78e9dd9fc476c83fded1088dc23bf",
+      "price": 149.43,
+      "freight_value": 43.88,
+      "item_discount_pct": 0.033,
+      "price_after_discount": 144.5,
+      "logistics_cost": 52.42
+    },
+    {
+      "id": 2,
+      "order_id": "dc731b36aa454393956de4c31034e5e1",
+      "order_item_id": 1,
+      "product_id": "8e9a61c32f6a4b7a9e2adbd69faf99ab",
+      "seller_id": "e6571639d28042fdbe1b5ed4e074fb79",
+      "price": 457.52,
+      "freight_value": 59.3,
+      "item_discount_pct": 0.004,
+      "price_after_discount": 455.69,
+      "logistics_cost": 58.56
+    },
+    {
+      "id": 3,
+      "order_id": "dc731b36aa454393956de4c31034e5e1",
+      "order_item_id": 2,
+      "product_id": "5f0017c8b47b48c4b875f7b634cbdc43",
+      "seller_id": "825a9e5898f94b6dba16bd160266ab3f",
+      "price": 157.02,
+      "freight_value": 35.88,
+      "item_discount_pct": 0.097,
+      "price_after_discount": 141.79,
+      "logistics_cost": 40.11
+    }
+  ],
+  "ecommerce.orders": [
+    {
+      "order_id": "0bf48b479576466bacfdf867df732390",
+      "customer_id": "3215a5703dd745a0a8b2fd3d497a57df",
+      "order_status": "delivered",
+      "order_purchase_timestamp": "2023-05-23 00:00:00+00:00",
+      "order_approved_at": "2023-05-24 03:50:20.872980+00:00",
+      "order_delivered_carrier_date": "2023-05-26 15:41:07.903811+00:00",
+      "order_delivered_customer_date": "2023-05-31 03:41:30.506452+00:00",
+      "order_estimated_delivery_date": "2023-06-02 03:41:30.506452+00:00",
+      "shipping_delay_days": -2,
+      "invoice_available": true,
+      "avg_discount_pct": 0.033,
+      "total_revenue": 144.5,
+      "total_logistics": 52.42,
+      "total_freight": 43.88,
+      "item_count": 1,
+      "total_profit": 70.4,
+      "profit_margin": 0.4872,
+      "inventory_mismatch": false,
+      "payment_status": "approved",
+      "order_month": "2023-05-01",
+      "order_quarter": "2023-04-01",
+      "order_year": 2023
+    },
+    {
+      "order_id": "dc731b36aa454393956de4c31034e5e1",
+      "customer_id": "9c478adb5215485cbc27407d9ec6dca9",
+      "order_status": "delivered",
+      "order_purchase_timestamp": "2023-08-21 00:00:00+00:00",
+      "order_approved_at": "2023-08-22 00:21:40.878993+00:00",
+      "order_delivered_carrier_date": "2023-08-24 20:08:42.789447+00:00",
+      "order_delivered_customer_date": "2023-09-01 00:48:52.559263+00:00",
+      "order_estimated_delivery_date": "2023-08-30 00:48:52.559263+00:00",
+      "shipping_delay_days": 2,
+      "invoice_available": true,
+      "avg_discount_pct": 0.05,
+      "total_revenue": 597.48,
+      "total_logistics": 98.67,
+      "total_freight": 95.18,
+      "item_count": 2,
+      "total_profit": 409.19,
+      "profit_margin": 0.6849,
+      "inventory_mismatch": false,
+      "payment_status": "approved",
+      "order_month": "2023-08-01",
+      "order_quarter": "2023-07-01",
+      "order_year": 2023
+    },
+    {
+      "order_id": "5a2eb23b05ba4d21b0ead44c120c51e7",
+      "customer_id": "97c9648f631d41a5ae64a0d90c7eb9b0",
+      "order_status": "delivered",
+      "order_purchase_timestamp": "2023-11-01 00:00:00+00:00",
+      "order_approved_at": "2023-11-02 11:10:22.326996+00:00",
+      "order_delivered_carrier_date": "2023-11-05 23:04:46.416951+00:00",
+      "order_delivered_customer_date": "2023-11-11 22:33:32.990745+00:00",
+      "order_estimated_delivery_date": "2023-11-12 22:33:32.990745+00:00",
+      "shipping_delay_days": -1,
+      "invoice_available": true,
+      "avg_discount_pct": 0.073,
+      "total_revenue": 7423.37,
+      "total_logistics": 413.14,
+      "total_freight": 352.49,
+      "item_count": 4,
+      "total_profit": 5896.72,
+      "profit_margin": 0.7943,
+      "inventory_mismatch": false,
+      "payment_status": "approved",
+      "order_month": "2023-11-01",
+      "order_quarter": "2023-10-01",
+      "order_year": 2023
+    }
+  ],
+  "ecommerce.payments": [
+    {
+      "id": 371,
+      "order_id": "0bf48b479576466bacfdf867df732390",
+      "payment_sequential": 1,
+      "payment_type": "voucher",
+      "payment_installments": 1,
+      "payment_value": 144.5,
+      "payment_status": "approved",
+      "seller_paid_twice": false
+    },
+    {
+      "id": 372,
+      "order_id": "dc731b36aa454393956de4c31034e5e1",
+      "payment_sequential": 1,
+      "payment_type": "credit_card",
+      "payment_installments": 1,
+      "payment_value": 597.48,
+      "payment_status": "approved",
+      "seller_paid_twice": false
+    },
+    {
+      "id": 373,
+      "order_id": "5a2eb23b05ba4d21b0ead44c120c51e7",
+      "payment_sequential": 1,
+      "payment_type": "credit_card",
+      "payment_installments": 1,
+      "payment_value": 7423.37,
+      "payment_status": "approved",
+      "seller_paid_twice": false
+    }
+  ],
+  "ecommerce.products": [
+    {
+      "product_id": "b43b13c010ac41189b87f52a845684db",
+      "product_category_name": "office_supplies",
+      "product_name_length": 30,
+      "product_description_length": 1489,
+      "product_photos_qty": 8,
+      "product_weight_g": 14397,
+      "product_length_cm": 21,
+      "product_height_cm": 78,
+      "product_width_cm": 23,
+      "unit_price_egp": 4965.37
+    },
+    {
+      "product_id": "b21aa86b257d414baadd70ac0ea086aa",
+      "product_category_name": "fashion_clothing",
+      "product_name_length": 79,
+      "product_description_length": 2772,
+      "product_photos_qty": 1,
+      "product_weight_g": 19758,
+      "product_length_cm": 45,
+      "product_height_cm": 63,
+      "product_width_cm": 67,
+      "unit_price_egp": 5607.0
+    },
+    {
+      "product_id": "f9593963cbc44153a36dc22d4ba9b9ed",
+      "product_category_name": "automotive",
+      "product_name_length": 56,
+      "product_description_length": 269,
+      "product_photos_qty": 3,
+      "product_weight_g": 19254,
+      "product_length_cm": 37,
+      "product_height_cm": 20,
+      "product_width_cm": 92,
+      "unit_price_egp": 2414.75
+    }
+  ],
+  "ecommerce.refunds": [
+    {
+      "refund_id": "83947163ab294297aabd99b0189a294c",
+      "order_id": "31e41b34b9d44e8da741f022a804637c",
+      "refund_amount": 795.21,
+      "refund_date": "2023-10-24 00:00:00+00:00",
+      "refund_reason": "incorrect_refund",
+      "refund_status": "processed",
+      "duplicate_refund": false,
+      "processed_before_cancel": false
+    },
+    {
+      "refund_id": "3527a690014c40069ef85d56f291a9a4",
+      "order_id": "be081895d3b44e4289052622f6ee05ea",
+      "refund_amount": 8363.89,
+      "refund_date": "2024-08-24 00:00:00+00:00",
+      "refund_reason": "incorrect_refund",
+      "refund_status": "processed",
+      "duplicate_refund": false,
+      "processed_before_cancel": false
+    },
+    {
+      "refund_id": "5a35108854d3437883f808cfeb220ec4",
+      "order_id": "4581f84c6d49481887907147b075632b",
+      "refund_amount": 2093.21,
+      "refund_date": "2023-11-05 00:00:00+00:00",
+      "refund_reason": "incorrect_refund",
+      "refund_status": "processed",
+      "duplicate_refund": false,
+      "processed_before_cancel": false
+    }
+  ],
+  "ecommerce.reviews": [
+    {
+      "review_id": "2b89a5d140a84a648586a13d6c3ed2fb",
+      "order_id": "0bf48b479576466bacfdf867df732390",
+      "customer_id": "3215a5703dd745a0a8b2fd3d497a57df",
+      "rating": 4.0,
+      "review_comment": "Quick delivery, product as expected.",
+      "review_date": "2023-06-02 00:00:00+00:00",
+      "sentiment": "positive",
+      "is_emoji_only": false,
+      "rating_group": "positive",
+      "has_comment": true
+    },
+    {
+      "review_id": "9cbe2717a65f4d8299a716dd93423b1d",
+      "order_id": "dc731b36aa454393956de4c31034e5e1",
+      "customer_id": "9c478adb5215485cbc27407d9ec6dca9",
+      "rating": 3.0,
+      "review_comment": "5 stars for the fast shioping.",
+      "review_date": "2023-08-27 00:00:00+00:00",
+      "sentiment": "positive",
+      "is_emoji_only": false,
+      "rating_group": "neutral",
+      "has_comment": true
+    },
+    {
+      "review_id": "282b7dc5bb234e9593ee687ca31362b2",
+      "order_id": "5a2eb23b05ba4d21b0ead44c120c51e7",
+      "customer_id": "97c9648f631d41a5ae64a0d90c7eb9b0",
+      "rating": 5.0,
+      "review_comment": "Good product, packaging was intact.",
+      "review_date": "2023-11-13 00:00:00+00:00",
+      "sentiment": "positive",
+      "is_emoji_only": false,
+      "rating_group": "positive",
+      "has_comment": true
+    }
+  ],
+  "ecommerce.sellers": [
+    {
+      "seller_id": "fd3235a0c5fd4e5b8ed568a7453c1c7b",
+      "seller_zip_code_prefix": 82198,
+      "seller_city": "Tanta",
+      "seller_name": "TopDeal Egypt #0",
+      "seller_rating": 3.0,
+      "total_orders": 2217,
+      "return_rate": 0.137,
+      "payment_disputes": 22,
+      "is_verified": true,
+      "dq_name_cleaned": false,
+      "dq_city_cleaned": false
+    },
+    {
+      "seller_id": "0693e7cbb3ee4d0d80fce82701204479",
+      "seller_zip_code_prefix": 35712,
+      "seller_city": "Giza",
+      "seller_name": "Delta Market #1",
+      "seller_rating": 4.2,
+      "total_orders": 2652,
+      "return_rate": 0.242,
+      "payment_disputes": 25,
+      "is_verified": true,
+      "dq_name_cleaned": false,
+      "dq_city_cleaned": false
+    },
+    {
+      "seller_id": "31255c8e20cc4a8d994a26ea5a1225a2",
+      "seller_zip_code_prefix": 88410,
+      "seller_city": "Hurghada",
+      "seller_name": "Souq Masr #2",
+      "seller_rating": 3.5,
+      "total_orders": 1536,
+      "return_rate": 0.151,
+      "payment_disputes": 30,
+      "is_verified": true,
+      "dq_name_cleaned": false,
+      "dq_city_cleaned": false
+    }
+  ],
+  "ecommerce.shipping": [
+    {
+      "shipping_id": "e631aae8c1da43f7925ba738ca25b359",
+      "order_id": "0bf48b479576466bacfdf867df732390",
+      "carrier": "Bosta",
+      "tracking_number": "EG779263352",
+      "shipped_date": "2023-05-26 15:41:07.903811+00:00",
+      "delivered_date": "2023-05-31 03:41:30.506452+00:00",
+      "shipping_status": "delivered",
+      "shipping_fee_charged": 68.07,
+      "actual_logistics_cost": 52.42,
+      "freight_value": 43.88,
+      "fee_calculation_error": false,
+      "fee_to_cost_ratio": 1.2986
+    },
+    {
+      "shipping_id": "ff2c99554b804700bd76fab85384b74a",
+      "order_id": "dc731b36aa454393956de4c31034e5e1",
+      "carrier": "Aramex EG",
+      "tracking_number": "EG654685109",
+      "shipped_date": "2023-08-24 20:08:42.789447+00:00",
+      "delivered_date": "2023-09-01 00:48:52.559263+00:00",
+      "shipping_status": "delivered",
+      "shipping_fee_charged": 16.86,
+      "actual_logistics_cost": 98.67,
+      "freight_value": 95.18,
+      "fee_calculation_error": false,
+      "fee_to_cost_ratio": 0.1709
+    },
+    {
+      "shipping_id": "4f675ba743a643a69fa87e51a1e8d6aa",
+      "order_id": "5a2eb23b05ba4d21b0ead44c120c51e7",
+      "carrier": "Egypt Post",
+      "tracking_number": "EG692674714",
+      "shipped_date": "2023-11-05 23:04:46.416951+00:00",
+      "delivered_date": "2023-11-11 22:33:32.990745+00:00",
+      "shipping_status": "delivered",
+      "shipping_fee_charged": 63.27,
+      "actual_logistics_cost": 413.14,
+      "freight_value": 352.49,
+      "fee_calculation_error": false,
+      "fee_to_cost_ratio": 0.1531
+    }
+  ],
+  "marketing.campaign_attribution": [
+    {
+      "id": 1,
+      "order_id": "f3aaee0b343a49e5b44a533601a63d7c",
+      "campaign_id": "CMP00181",
+      "attribution_type": "last_click"
+    },
+    {
+      "id": 2,
+      "order_id": "a59622221db04d629071f9a326056aa5",
+      "campaign_id": "CMP00042",
+      "attribution_type": "last_click"
+    },
+    {
+      "id": 3,
+      "order_id": "2d9122c610284b88980090fc232a5ae3",
+      "campaign_id": "CMP00113",
+      "attribution_type": "time_decay"
+    }
+  ],
+  "marketing.customer_interactions": [
+    {
+      "interaction_id": "INT000000001",
+      "customer_id": "826e2f0e85404049aa840a71844d9aa2",
+      "campaign_id": "CMP00159",
+      "interaction_date": "2024-11-17 13:58:00+00:00",
+      "channel": "Instagram",
+      "action_type": "click",
+      "device": "mobile"
+    },
+    {
+      "interaction_id": "INT000000002",
+      "customer_id": "8bb48d422b354a8f85ae6e1e69d04952",
+      "campaign_id": "CMP00087",
+      "interaction_date": "2024-01-21 05:49:00+00:00",
+      "channel": "Instagram",
+      "action_type": "view",
+      "device": "desktop"
+    },
+    {
+      "interaction_id": "INT000000003",
+      "customer_id": "0845bcb1d45b47a59d932c6bedec02a8",
+      "campaign_id": "CMP00146",
+      "interaction_date": "2024-09-19 04:44:00+00:00",
+      "channel": "Instagram",
+      "action_type": "click",
+      "device": "tablet"
+    }
+  ],
+  "marketing.leads_closed": [
+    {
+      "mql_id": "28a173061ae5492f94f38f29378a03d4",
+      "seller_id": "ede25bf6bbb345ef88b6d715b1a5e3c3",
+      "sdr_id": "c73f7380f8934f2d85eaf33a43259663",
+      "sr_id": "19ba3f67ed0d4a85be87c9e561948ce7",
+      "won_date": "2024-05-25",
+      "business_segment": "electronics_retail",
+      "lead_type": "other",
+      "lead_behaviour_profile": "eagle",
+      "has_company": true,
+      "has_gtin": true,
+      "average_stock": "50-100",
+      "business_type": "importer",
+      "declared_product_catalog_size": 100.0,
+      "declared_monthly_revenue": 154135.0
+    },
+    {
+      "mql_id": "bc38e583ad5c4c7c9cc38d880e2359d6",
+      "seller_id": "28ab74737bd14d06831a29804ccee410",
+      "sdr_id": "9f7e3e93989245cba28a1acd90f8967a",
+      "sr_id": "ca0a4628423b4c85b0cddc6f702d9a65",
+      "won_date": "2024-12-03",
+      "business_segment": "sports_equipment",
+      "lead_type": "online_big",
+      "lead_behaviour_profile": "shark",
+      "has_company": true,
+      "has_gtin": true,
+      "average_stock": "50-100",
+      "business_type": "retailer",
+      "declared_product_catalog_size": 100.0,
+      "declared_monthly_revenue": 136410.0
+    },
+    {
+      "mql_id": "a0526bc77ddb43cba10f39f9a9beb5ea",
+      "seller_id": "a4b0bf3b108344499e8e48111a561436",
+      "sdr_id": "f0648e2390d847e4a51dd5eda3251190",
+      "sr_id": "627b7cb599b6409cb12fae69a1bf8f5c",
+      "won_date": "2024-06-01",
+      "business_segment": "furniture",
+      "lead_type": "offline",
+      "lead_behaviour_profile": "eagle, cat",
+      "has_company": false,
+      "has_gtin": false,
+      "average_stock": "50-100",
+      "business_type": "importer",
+      "declared_product_catalog_size": 50.0,
+      "declared_monthly_revenue": 195148.0
+    }
+  ],
+  "marketing.leads_qualified": [
+    {
+      "mql_id": "440227866fbf4811aeb59dfc0618143b",
+      "first_contact_date": "2024-09-30",
+      "landing_page_id": "527e98fab5cd4063ad1291e2a37915f3",
+      "origin": "social_media"
+    },
+    {
+      "mql_id": "f1df4c7031bd42ea96be6779074e8cca",
+      "first_contact_date": "2024-12-04",
+      "landing_page_id": "a120f5a0544d46aa80db1d930da94ab7",
+      "origin": "social_media"
+    },
+    {
+      "mql_id": "eb297ebaf7db4a12be1a399d1bdd1ee0",
+      "first_contact_date": "2024-03-07",
+      "landing_page_id": "8ab16500c6f041138178f5a8974c8958",
+      "origin": "social_media"
+    }
+  ],
+  "marketing.marketing_campaigns": [
+    {
+      "campaign_id": "CMP00001",
+      "campaign_name": "Ramadan Kareem Sale — Google 2024",
+      "channel": "Google",
+      "campaign_type": "Conversion",
+      "start_date": "2024-03-02",
+      "end_date": "2024-03-30",
+      "budget": 57209.9
+    },
+    {
+      "campaign_id": "CMP00002",
+      "campaign_name": "Ramadan Kareem Sale — SMS 2024",
+      "channel": "SMS",
+      "campaign_type": "Conversion",
+      "start_date": "2024-03-02",
+      "end_date": "2024-03-30",
+      "budget": 4998.66
+    },
+    {
+      "campaign_id": "CMP00003",
+      "campaign_name": "Ramadan Kareem Sale — Facebook 2024",
+      "channel": "Facebook",
+      "campaign_type": "Conversion",
+      "start_date": "2024-03-02",
+      "end_date": "2024-03-30",
+      "budget": 139155.17
+    }
+  ],
+  "marketing.website_sessions": [
+    {
+      "session_id": "SES000000001",
+      "customer_id": "ce25c0fef9ad447b83a0dadaf05320e9",
+      "session_start": "2023-06-26 14:25:00+00:00",
+      "session_end": "2023-06-26 15:05:00+00:00",
+      "traffic_source": "paid_search",
+      "landing_page": "/brand/local",
+      "bounce": false,
+      "session_duration_min": 40.0
+    },
+    {
+      "session_id": "SES000000002",
+      "customer_id": "9246b9f873fc46bf97079f3e3bfd8d3a",
+      "session_start": "2024-10-23 00:25:00+00:00",
+      "session_end": "2024-10-23 00:33:00+00:00",
+      "traffic_source": "organic",
+      "landing_page": "/top-sellers",
+      "bounce": false,
+      "session_duration_min": 8.0
+    },
+    {
+      "session_id": "SES000000003",
+      "customer_id": "410cafd4dcee4629b07a10f67c6ca24f",
+      "session_start": "2024-08-23 23:31:00+00:00",
+      "session_end": "2024-08-24 00:31:00+00:00",
+      "traffic_source": "referral",
+      "landing_page": "/cart",
+      "bounce": true,
+      "session_duration_min": 60.0
+    }
+  ],
+  "ml_output.chatbot_conversations": [],
+  "ml_output.chatbot_enums": [
+    {
+      "enum_name": "order_status",
+      "enum_value": "delivered",
+      "description": "Order delivered to customer"
+    },
+    {
+      "enum_name": "order_status",
+      "enum_value": "canceled",
+      "description": "Order cancelled"
+    },
+    {
+      "enum_name": "order_status",
+      "enum_value": "shipped",
+      "description": "In transit to customer"
+    }
+  ],
+  "ml_output.chatbot_prompt_versions": [],
+  "ml_output.chatbot_query_log": [],
+  "ml_output.order_anomaly_scores": [
+    {
+      "order_id": "221975b08b834ee6a380a142e32f12f7",
+      "if_score": 0.363543,
+      "lof_score": 0.040777,
+      "ensemble_score": 0.250575,
+      "anomaly_flag": 0,
+      "risk_tier": "Low",
+      "anomaly_rank": 0.89537,
+      "leakage_scenarios": "{no_leakage}",
+      "leakage_reason": "no_leakage",
+      "scored_at": "2026-05-21 14:44:14.637268+00:00",
+      "customer_id": "40a4ec38ef81432f8becbd659ce7e628",
+      "order_status": "delivered",
+      "order_purchase_timestamp": "2024-08-21 00:00:00+00:00",
+      "total_revenue": 253.37,
+      "profit_margin": 0.4173,
+      "avg_discount_pct": 0.132,
+      "shipping_delay_days": -3,
+      "payment_status": "approved",
+      "shipping_status": "delivered",
+      "month": "2024-08"
+    },
+    {
+      "order_id": "57307b1e74804167a82bdc595e58460e",
+      "if_score": 0.078715,
+      "lof_score": 0.014981,
+      "ensemble_score": 0.056408,
+      "anomaly_flag": 0,
+      "risk_tier": "Low",
+      "anomaly_rank": 0.16337,
+      "leakage_scenarios": "{no_leakage}",
+      "leakage_reason": "no_leakage",
+      "scored_at": "2026-05-21 14:44:14.637268+00:00",
+      "customer_id": "200b411605314acca439add64a2955be",
+      "order_status": "delivered",
+      "order_purchase_timestamp": "2024-01-02 00:00:00+00:00",
+      "total_revenue": 3498.14,
+      "profit_margin": 0.8331,
+      "avg_discount_pct": 0.054,
+      "shipping_delay_days": 3,
+      "payment_status": "approved",
+      "shipping_status": "delivered",
+      "month": "2024-01"
+    },
+    {
+      "order_id": "4a7833eb1add4849aea5918c6a5e3c9c",
+      "if_score": 0.130913,
+      "lof_score": 0.02323,
+      "ensemble_score": 0.093224,
+      "anomaly_flag": 0,
+      "risk_tier": "Low",
+      "anomaly_rank": 0.39784,
+      "leakage_scenarios": "{no_leakage}",
+      "leakage_reason": "no_leakage",
+      "scored_at": "2026-05-21 14:44:14.637268+00:00",
+      "customer_id": "bb4e20e6e056495086ae1e2a7bc6ecdb",
+      "order_status": "delivered",
+      "order_purchase_timestamp": "2023-12-01 00:00:00+00:00",
+      "total_revenue": 488.79,
+      "profit_margin": 0.6707,
+      "avg_discount_pct": 0.074,
+      "shipping_delay_days": -2,
+      "payment_status": "approved",
+      "shipping_status": "delivered",
+      "month": "2023-12"
+    }
+  ],
+  "ml_output.order_leakage_reasons": [
+    {
+      "order_id": "4dfbc2565bdb4fad862f8dccf4a60f8b",
+      "leakage_type": "statistical_outlier",
+      "confidence": 0.3998
+    },
+    {
+      "order_id": "d154ba29383048febf1487714736c2e1",
+      "leakage_type": "shipping_failed_review_exists",
+      "confidence": 0.3702
+    },
+    {
+      "order_id": "afe6b8c350b042a891712c3d4b048368",
+      "leakage_type": "statistical_outlier",
+      "confidence": 0.3749
+    }
+  ],
+  "ml_output.schema_metadata": [
+    {
+      "table_schema": "ecommerce",
+      "table_name": "orders",
+      "description": "Core fact table. Revenue, profit, discount, status, timestamps. All money EGP.",
+      "row_count_approx": 298323,
+      "key_columns": "order_id (PK), customer_id, order_status, total_revenue, profit_margin, order_month, order_quarter",
+      "join_hint": "JOIN customers ON customer_id. JOIN payments ON order_id AND payment_sequential=1.",
+      "chatbot_use_case": "Monthly/quarterly revenue, profit, leakage counts. Use order_month for GROUP BY."
+    },
+    {
+      "table_schema": "ecommerce",
+      "table_name": "customers",
+      "description": "Customer profiles: LTV, segment, churn risk, city.",
+      "row_count_approx": 253574,
+      "key_columns": "customer_id (PK), segment, churn_risk, lifetime_value, customer_city",
+      "join_hint": "JOIN orders ON customer_id.",
+      "chatbot_use_case": "Segment analysis, city breakdown, high-value customers."
+    },
+    {
+      "table_schema": "ecommerce",
+      "table_name": "payments",
+      "description": "Payment records. Multiple rows per order. payment_sequential=1 is primary.",
+      "row_count_approx": 297538,
+      "key_columns": "order_id (FK), payment_type, payment_status, payment_value, seller_paid_twice",
+      "join_hint": "JOIN orders ON order_id. Filter payment_sequential=1.",
+      "chatbot_use_case": "Payment method breakdown, unpaid/partial orders, COD analysis."
+    }
+  ],
+  "rag.business_embeddings": [
+    {
+      "doc_id": 16,
+      "created_at": "2026-05-22 17:06:03.147198+00:00"
+    },
+    {
+      "doc_id": 13,
+      "created_at": "2026-05-22 17:06:03.147198+00:00"
+    },
+    {
+      "doc_id": 19,
+      "created_at": "2026-05-22 17:06:03.147198+00:00"
+    }
+  ],
+  "rag.document_versions": [],
+  "rag.documents": [
+    {
+      "doc_id": 37260,
+      "source_type": "leakage_reason",
+      "source_id": "feedfe790aa34b0480427f43ae108563",
+      "title": "Leakage Report: feedfe790aa34b0480427f43ae108563",
+      "content": "Order ID: feedfe790aa34b0480427f43ae108563\nRisk Tier: Medium\nAnomaly Score: 0.421309\nOrder Status: canceled\nPayment Status: approved\nTotal Revenue: 396.98 EGP\nProfit Margin: 0.4915\nShipping Delay Days: 0\nLeakage Scenarios: shipping_failed_review_exists\nCustomer Segment: Low Value\nCity: Hurghada",
+      "content_lang": "ar+en",
+      "metadata": {
+        "order_id": "feedfe790aa34b0480427f43ae108563",
+        "risk_tier": "Medium",
+        "anomaly_flag": 1,
+        "order_status": "canceled",
+        "total_revenue": 396.98,
+        "embedding_type": "business_rule",
+        "ensemble_score": 0.421309,
+        "payment_status": "approved",
+        "source_type_filter": "leakage_reason"
+      },
+      "embedding_type": "business_rule",
+      "priority": 5,
+      "retrieval_weight": 0.8,
+      "version": 1,
+      "is_active": true,
+      "needs_reembedding": false,
+      "created_at": "2026-05-22 15:11:20.853712+00:00",
+      "updated_at": "2026-05-22 15:11:20.853712+00:00",
+      "content_tsv": "'0':26,64 '0.421309':9,47 '0.4915':22,60 '396.98':18,56 'anomali':45 'anomaly':7 'approv':53 'approved':15 'cancel':50 'canceled':12 'citi':75 'city':37 'custom':71 'customer':33 'day':63 'days':25 'delay':24,62 'egp':19,57 'exist':70 'exists':32 'fail':68 'failed':30 'feedfe790aa34b0480427f43ae108563':3,41 'hurghada':38,76 'id':2,40 'leakag':65 'leakage':27 'low':35,73 'margin':21,59 'medium':6,44 'order':1,10,39,48 'payment':13,51 'profit':20,58 'revenu':55 'revenue':17 'review':31,69 'risk':4,42 'scenario':66 'scenarios':28 'score':8,46 'segment':34,72 'ship':61,67 'shipping':23,29 'status':11,14,49,52 'tier':5,43 'total':16,54 'valu':74 'value':36"
+    },
+    {
+      "doc_id": 37366,
+      "source_type": "leakage_reason",
+      "source_id": "74d9408e46a8454eab23d51aa345075f",
+      "title": "Leakage Report: 74d9408e46a8454eab23d51aa345075f",
+      "content": "Order ID: 74d9408e46a8454eab23d51aa345075f\nRisk Tier: Medium\nAnomaly Score: 0.430213\nOrder Status: delivered\nPayment Status: approved\nTotal Revenue: 13029.81 EGP\nProfit Margin: 0.8187\nShipping Delay Days: 0\nLeakage Scenarios: statistical_outlier\nCustomer Segment: Low Value\nCity: Minya",
+      "content_lang": "ar+en",
+      "metadata": {
+        "order_id": "74d9408e46a8454eab23d51aa345075f",
+        "risk_tier": "Medium",
+        "anomaly_flag": 1,
+        "order_status": "delivered",
+        "total_revenue": 13029.81,
+        "embedding_type": "business_rule",
+        "ensemble_score": 0.430213,
+        "payment_status": "approved",
+        "source_type_filter": "leakage_reason"
+      },
+      "embedding_type": "business_rule",
+      "priority": 5,
+      "retrieval_weight": 0.8,
+      "version": 1,
+      "is_active": true,
+      "needs_reembedding": false,
+      "created_at": "2026-05-22 15:11:20.853712+00:00",
+      "updated_at": "2026-05-22 15:11:20.853712+00:00",
+      "content_tsv": "'0':26,62 '0.430213':9,45 '0.8187':22,58 '13029.81':18,54 '74d9408e46a8454eab23d51aa345075f':3,39 'anomali':43 'anomaly':7 'approv':51 'approved':15 'citi':71 'city':35 'custom':67 'customer':31 'day':61 'days':25 'delay':24,60 'deliv':48 'delivered':12 'egp':19,55 'id':2,38 'leakag':63 'leakage':27 'low':33,69 'margin':21,57 'medium':6,42 'minya':36,72 'order':1,10,37,46 'outlier':30,66 'payment':13,49 'profit':20,56 'revenu':53 'revenue':17 'risk':4,40 'scenario':64 'scenarios':28 'score':8,44 'segment':32,68 'ship':59 'shipping':23 'statist':65 'statistical':29 'status':11,14,47,50 'tier':5,41 'total':16,52 'valu':70 'value':34"
+    },
+    {
+      "doc_id": 38139,
+      "source_type": "leakage_reason",
+      "source_id": "84589f61968f4dc28bb992fa3aef7491",
+      "title": "Leakage Report: 84589f61968f4dc28bb992fa3aef7491",
+      "content": "Order ID: 84589f61968f4dc28bb992fa3aef7491\nRisk Tier: Medium\nAnomaly Score: 0.457986\nOrder Status: delivered\nPayment Status: approved\nTotal Revenue: 11637.68 EGP\nProfit Margin: 0.8097\nShipping Delay Days: 0\nLeakage Scenarios: statistical_outlier\nCustomer Segment: Low Value\nCity: Fayyum",
+      "content_lang": "ar+en",
+      "metadata": {
+        "order_id": "84589f61968f4dc28bb992fa3aef7491",
+        "risk_tier": "Medium",
+        "anomaly_flag": 1,
+        "order_status": "delivered",
+        "total_revenue": 11637.68,
+        "embedding_type": "business_rule",
+        "ensemble_score": 0.457986,
+        "payment_status": "approved",
+        "source_type_filter": "leakage_reason"
+      },
+      "embedding_type": "business_rule",
+      "priority": 5,
+      "retrieval_weight": 0.8,
+      "version": 1,
+      "is_active": true,
+      "needs_reembedding": false,
+      "created_at": "2026-05-22 15:11:20.853712+00:00",
+      "updated_at": "2026-05-22 15:11:20.853712+00:00",
+      "content_tsv": "'0':26,62 '0.457986':9,45 '0.8097':22,58 '11637.68':18,54 '84589f61968f4dc28bb992fa3aef7491':3,39 'anomali':43 'anomaly':7 'approv':51 'approved':15 'citi':71 'city':35 'custom':67 'customer':31 'day':61 'days':25 'delay':24,60 'deliv':48 'delivered':12 'egp':19,55 'fayyum':36,72 'id':2,38 'leakag':63 'leakage':27 'low':33,69 'margin':21,57 'medium':6,42 'order':1,10,37,46 'outlier':30,66 'payment':13,49 'profit':20,56 'revenu':53 'revenue':17 'risk':4,40 'scenario':64 'scenarios':28 'score':8,44 'segment':32,68 'ship':59 'shipping':23 'statist':65 'statistical':29 'status':11,14,47,50 'tier':5,41 'total':16,52 'valu':70 'value':34"
+    }
+  ],
+  "rag.metrics_embeddings": [
+    {
+      "doc_id": 36,
+      "created_at": "2026-05-22 17:06:03.147198+00:00"
+    },
+    {
+      "doc_id": 55,
+      "created_at": "2026-05-22 17:06:03.147198+00:00"
+    },
+    {
+      "doc_id": 54,
+      "created_at": "2026-05-22 17:06:03.147198+00:00"
+    }
+  ],
+  "rag.retrieval_cache": [],
+  "rag.retrieval_log": [],
+  "rag.review_embeddings": [
+    {
+      "doc_id": 122,
+      "created_at": "2026-05-22 17:10:02.219386+00:00"
+    },
+    {
+      "doc_id": 123,
+      "created_at": "2026-05-22 17:10:02.219386+00:00"
+    },
+    {
+      "doc_id": 124,
+      "created_at": "2026-05-22 17:10:02.219386+00:00"
+    }
+  ],
+  "rag.schema_embeddings": [
+    {
+      "doc_id": 42,
+      "created_at": "2026-05-22 17:06:03.147198+00:00"
+    },
+    {
+      "doc_id": 44,
+      "created_at": "2026-05-22 17:06:03.147198+00:00"
+    },
+    {
+      "doc_id": 46,
+      "created_at": "2026-05-22 17:06:03.147198+00:00"
+    }
+  ],
+  "rag.sql_guard": [
+    {
+      "guard_id": 1,
+      "guard_type": "fake_column",
+      "pattern": "orders.status",
+      "message": "Column does not exist. Use orders.order_status",
+      "guard_mode": "contains"
+    },
+    {
+      "guard_id": 2,
+      "guard_type": "fake_column",
+      "pattern": "orders.amount",
+      "message": "Column does not exist. Use orders.total_revenue",
+      "guard_mode": "contains"
+    },
+    {
+      "guard_id": 3,
+      "guard_type": "fake_column",
+      "pattern": "customers.name",
+      "message": "Column does not exist. Use customers.customer_unique_id or customer_city",
+      "guard_mode": "contains"
+    }
+  ]
+}

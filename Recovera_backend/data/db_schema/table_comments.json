@@ -1,0 +1,97 @@
+[
+  {
+    "table_schema": "ecommerce",
+    "table_name": "customers",
+    "table_comment": "Customer profiles. JOIN to orders on customer_id. customer_unique_id groups duplicate accounts for the same person."
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "geolocation",
+    "table_comment": "Zip-to-coordinates mapping. Many rows per zip code. JOIN to customers on customer_zip_code_prefix."
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "order_items",
+    "table_comment": "Line items per order. Many-to-one with orders. SUM price_after_discount grouped by order_id for revenue."
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "orders",
+    "table_comment": "Core fact table. ~298K orders. All money in EGP. Use order_month for monthly GROUP BY — GENERATED column, no DATE_TRUNC needed. Use order_quarter for quarterly aggregates."
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "payments",
+    "table_comment": "Payment records. Multiple rows per order for installments. Filter payment_sequential = 1 for the primary payment method. seller_paid_twice = TRUE is leakage scenario seller_paid_twice."
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "products",
+    "table_comment": "Product catalog. JOIN to order_items on product_id."
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "refunds",
+    "table_comment": "~7800 refund records. Multiple refunds per order = duplicate_refund leakage."
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "reviews",
+    "table_comment": "~262K reviews. WARNING: multiple reviews per order possible. Use mv_leakage_dashboard (LATERAL join) to avoid row duplication."
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "sellers",
+    "table_comment": "Seller profiles. JOIN to order_items on seller_id."
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "shipping",
+    "table_comment": "One row per order. Carriers: Aramex EG, Egypt Post, Bosta, Mylerz, Voo, R2S Express."
+  },
+  {
+    "table_schema": "marketing",
+    "table_name": "marketing_campaigns",
+    "table_comment": "Campaign definitions. JOIN to campaign_attribution on campaign_id."
+  },
+  {
+    "table_schema": "marketing",
+    "table_name": "website_sessions",
+    "table_comment": "Session logs. bounce=TRUE = single-page visit. session_duration_min is GENERATED from start/end timestamps."
+  },
+  {
+    "table_schema": "ml_output",
+    "table_name": "chatbot_conversations",
+    "table_comment": "Multi-turn conversation history. Load last N rows by session_id ordered by turn_index to reconstruct context window."
+  },
+  {
+    "table_schema": "ml_output",
+    "table_name": "chatbot_enums",
+    "table_comment": "Inject into LLM system prompt. Provides all valid ENUM values and meanings. Prevents hallucinated filter values like WHERE order_status = 'complete'."
+  },
+  {
+    "table_schema": "ml_output",
+    "table_name": "chatbot_prompt_versions",
+    "table_comment": "Prompt version control. Only one row can have is_active=TRUE (enforced by partial unique index). Load the active row system_prompt at chatbot startup."
+  },
+  {
+    "table_schema": "ml_output",
+    "table_name": "chatbot_query_log",
+    "table_comment": "Every chatbot query logged here. Use for debugging, prompt improvement, cost tracking. cost_usd formula: (input_tokens * 0.000003 + output_tokens * 0.000015) for gpt-4o-mini."
+  },
+  {
+    "table_schema": "ml_output",
+    "table_name": "order_anomaly_scores",
+    "table_comment": "ML anomaly score per order. anomaly_flag = 1 means leakage detected."
+  },
+  {
+    "table_schema": "ml_output",
+    "table_name": "order_leakage_reasons",
+    "table_comment": "Junction: one row per (order, leakage_type). PREFERRED for scenario filtering. Example: WHERE leakage_type = 'duplicate_refund'."
+  },
+  {
+    "table_schema": "ml_output",
+    "table_name": "schema_metadata",
+    "table_comment": "Inject into LLM system prompt. Guides table selection, prevents wrong JOINs."
+  }
+]

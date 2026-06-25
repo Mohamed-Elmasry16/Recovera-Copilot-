@@ -1,0 +1,194 @@
+[
+  {
+    "table_schema": "ecommerce",
+    "table_name": "order_items",
+    "column_name": "order_id",
+    "ref_schema": "ecommerce",
+    "ref_table": "orders",
+    "ref_column": "order_id"
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "order_items",
+    "column_name": "product_id",
+    "ref_schema": "ecommerce",
+    "ref_table": "products",
+    "ref_column": "product_id"
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "order_items",
+    "column_name": "seller_id",
+    "ref_schema": "ecommerce",
+    "ref_table": "sellers",
+    "ref_column": "seller_id"
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "orders",
+    "column_name": "customer_id",
+    "ref_schema": "ecommerce",
+    "ref_table": "customers",
+    "ref_column": "customer_id"
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "payments",
+    "column_name": "order_id",
+    "ref_schema": "ecommerce",
+    "ref_table": "orders",
+    "ref_column": "order_id"
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "refunds",
+    "column_name": "order_id",
+    "ref_schema": "ecommerce",
+    "ref_table": "orders",
+    "ref_column": "order_id"
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "reviews",
+    "column_name": "order_id",
+    "ref_schema": "ecommerce",
+    "ref_table": "orders",
+    "ref_column": "order_id"
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "reviews",
+    "column_name": "customer_id",
+    "ref_schema": "ecommerce",
+    "ref_table": "customers",
+    "ref_column": "customer_id"
+  },
+  {
+    "table_schema": "ecommerce",
+    "table_name": "shipping",
+    "column_name": "order_id",
+    "ref_schema": "ecommerce",
+    "ref_table": "orders",
+    "ref_column": "order_id"
+  },
+  {
+    "table_schema": "marketing",
+    "table_name": "campaign_attribution",
+    "column_name": "order_id",
+    "ref_schema": "ecommerce",
+    "ref_table": "orders",
+    "ref_column": "order_id"
+  },
+  {
+    "table_schema": "marketing",
+    "table_name": "campaign_attribution",
+    "column_name": "campaign_id",
+    "ref_schema": "marketing",
+    "ref_table": "marketing_campaigns",
+    "ref_column": "campaign_id"
+  },
+  {
+    "table_schema": "marketing",
+    "table_name": "customer_interactions",
+    "column_name": "customer_id",
+    "ref_schema": "ecommerce",
+    "ref_table": "customers",
+    "ref_column": "customer_id"
+  },
+  {
+    "table_schema": "marketing",
+    "table_name": "customer_interactions",
+    "column_name": "campaign_id",
+    "ref_schema": "marketing",
+    "ref_table": "marketing_campaigns",
+    "ref_column": "campaign_id"
+  },
+  {
+    "table_schema": "marketing",
+    "table_name": "leads_closed",
+    "column_name": "seller_id",
+    "ref_schema": "ecommerce",
+    "ref_table": "sellers",
+    "ref_column": "seller_id"
+  },
+  {
+    "table_schema": "marketing",
+    "table_name": "leads_closed",
+    "column_name": "mql_id",
+    "ref_schema": "marketing",
+    "ref_table": "leads_qualified",
+    "ref_column": "mql_id"
+  },
+  {
+    "table_schema": "marketing",
+    "table_name": "website_sessions",
+    "column_name": "customer_id",
+    "ref_schema": "ecommerce",
+    "ref_table": "customers",
+    "ref_column": "customer_id"
+  },
+  {
+    "table_schema": "ml_output",
+    "table_name": "chatbot_query_log",
+    "column_name": "turn_id",
+    "ref_schema": "ml_output",
+    "ref_table": "chatbot_conversations",
+    "ref_column": "id"
+  },
+  {
+    "table_schema": "ml_output",
+    "table_name": "order_anomaly_scores",
+    "column_name": "order_id",
+    "ref_schema": "ecommerce",
+    "ref_table": "orders",
+    "ref_column": "order_id"
+  },
+  {
+    "table_schema": "ml_output",
+    "table_name": "order_leakage_reasons",
+    "column_name": "order_id",
+    "ref_schema": "ecommerce",
+    "ref_table": "orders",
+    "ref_column": "order_id"
+  },
+  {
+    "table_schema": "rag",
+    "table_name": "business_embeddings",
+    "column_name": "doc_id",
+    "ref_schema": "rag",
+    "ref_table": "documents",
+    "ref_column": "doc_id"
+  },
+  {
+    "table_schema": "rag",
+    "table_name": "document_versions",
+    "column_name": "doc_id",
+    "ref_schema": "rag",
+    "ref_table": "documents",
+    "ref_column": "doc_id"
+  },
+  {
+    "table_schema": "rag",
+    "table_name": "metrics_embeddings",
+    "column_name": "doc_id",
+    "ref_schema": "rag",
+    "ref_table": "documents",
+    "ref_column": "doc_id"
+  },
+  {
+    "table_schema": "rag",
+    "table_name": "review_embeddings",
+    "column_name": "doc_id",
+    "ref_schema": "rag",
+    "ref_table": "documents",
+    "ref_column": "doc_id"
+  },
+  {
+    "table_schema": "rag",
+    "table_name": "schema_embeddings",
+    "column_name": "doc_id",
+    "ref_schema": "rag",
+    "ref_table": "documents",
+    "ref_column": "doc_id"
+  }
+]

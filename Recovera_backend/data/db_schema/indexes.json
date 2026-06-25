@@ -1,0 +1,807 @@
+[
+  {
+    "schemaname": "ecommerce",
+    "tablename": "customers",
+    "indexname": "customers_pkey",
+    "indexdef": "CREATE UNIQUE INDEX customers_pkey ON ecommerce.customers USING btree (customer_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "customers",
+    "indexname": "idx_customers_city",
+    "indexdef": "CREATE INDEX idx_customers_city ON ecommerce.customers USING btree (customer_city)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "customers",
+    "indexname": "idx_customers_segment",
+    "indexdef": "CREATE INDEX idx_customers_segment ON ecommerce.customers USING btree (segment)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "customers",
+    "indexname": "idx_customers_zip",
+    "indexdef": "CREATE INDEX idx_customers_zip ON ecommerce.customers USING btree (customer_zip_code_prefix)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "geolocation",
+    "indexname": "geolocation_pkey",
+    "indexdef": "CREATE UNIQUE INDEX geolocation_pkey ON ecommerce.geolocation USING btree (id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "geolocation",
+    "indexname": "idx_geo_zip",
+    "indexdef": "CREATE INDEX idx_geo_zip ON ecommerce.geolocation USING btree (geolocation_zip_code_prefix)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "order_items",
+    "indexname": "idx_items_order",
+    "indexdef": "CREATE INDEX idx_items_order ON ecommerce.order_items USING btree (order_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "order_items",
+    "indexname": "idx_items_product",
+    "indexdef": "CREATE INDEX idx_items_product ON ecommerce.order_items USING btree (product_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "order_items",
+    "indexname": "idx_items_seller",
+    "indexdef": "CREATE INDEX idx_items_seller ON ecommerce.order_items USING btree (seller_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "order_items",
+    "indexname": "order_items_order_id_order_item_id_key",
+    "indexdef": "CREATE UNIQUE INDEX order_items_order_id_order_item_id_key ON ecommerce.order_items USING btree (order_id, order_item_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "order_items",
+    "indexname": "order_items_pkey",
+    "indexdef": "CREATE UNIQUE INDEX order_items_pkey ON ecommerce.order_items USING btree (id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "orders",
+    "indexname": "idx_orders_customer",
+    "indexdef": "CREATE INDEX idx_orders_customer ON ecommerce.orders USING btree (customer_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "orders",
+    "indexname": "idx_orders_discount",
+    "indexdef": "CREATE INDEX idx_orders_discount ON ecommerce.orders USING btree (avg_discount_pct)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "orders",
+    "indexname": "idx_orders_inv_mismatch",
+    "indexdef": "CREATE INDEX idx_orders_inv_mismatch ON ecommerce.orders USING btree (order_id) WHERE (inventory_mismatch = true)",
+    "is_partial": true
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "orders",
+    "indexname": "idx_orders_month",
+    "indexdef": "CREATE INDEX idx_orders_month ON ecommerce.orders USING btree (order_month)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "orders",
+    "indexname": "idx_orders_no_invoice",
+    "indexdef": "CREATE INDEX idx_orders_no_invoice ON ecommerce.orders USING btree (order_id) WHERE (invoice_available = false)",
+    "is_partial": true
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "orders",
+    "indexname": "idx_orders_profit",
+    "indexdef": "CREATE INDEX idx_orders_profit ON ecommerce.orders USING btree (profit_margin)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "orders",
+    "indexname": "idx_orders_quarter",
+    "indexdef": "CREATE INDEX idx_orders_quarter ON ecommerce.orders USING btree (order_quarter)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "orders",
+    "indexname": "idx_orders_status",
+    "indexdef": "CREATE INDEX idx_orders_status ON ecommerce.orders USING btree (order_status)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "orders",
+    "indexname": "idx_orders_ts_brin",
+    "indexdef": "CREATE INDEX idx_orders_ts_brin ON ecommerce.orders USING brin (order_purchase_timestamp) WITH (pages_per_range='128')",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "orders",
+    "indexname": "orders_pkey",
+    "indexdef": "CREATE UNIQUE INDEX orders_pkey ON ecommerce.orders USING btree (order_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "payments",
+    "indexname": "idx_payments_dupe",
+    "indexdef": "CREATE INDEX idx_payments_dupe ON ecommerce.payments USING btree (order_id) WHERE (seller_paid_twice = true)",
+    "is_partial": true
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "payments",
+    "indexname": "idx_payments_order",
+    "indexdef": "CREATE INDEX idx_payments_order ON ecommerce.payments USING btree (order_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "payments",
+    "indexname": "idx_payments_status",
+    "indexdef": "CREATE INDEX idx_payments_status ON ecommerce.payments USING btree (payment_status)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "payments",
+    "indexname": "idx_payments_type",
+    "indexdef": "CREATE INDEX idx_payments_type ON ecommerce.payments USING btree (payment_type)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "payments",
+    "indexname": "payments_order_id_payment_sequential_key",
+    "indexdef": "CREATE UNIQUE INDEX payments_order_id_payment_sequential_key ON ecommerce.payments USING btree (order_id, payment_sequential)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "payments",
+    "indexname": "payments_pkey",
+    "indexdef": "CREATE UNIQUE INDEX payments_pkey ON ecommerce.payments USING btree (id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "products",
+    "indexname": "idx_products_category",
+    "indexdef": "CREATE INDEX idx_products_category ON ecommerce.products USING btree (product_category_name)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "products",
+    "indexname": "products_pkey",
+    "indexdef": "CREATE UNIQUE INDEX products_pkey ON ecommerce.products USING btree (product_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "refunds",
+    "indexname": "idx_refunds_date",
+    "indexdef": "CREATE INDEX idx_refunds_date ON ecommerce.refunds USING btree (refund_date)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "refunds",
+    "indexname": "idx_refunds_duplicate",
+    "indexdef": "CREATE INDEX idx_refunds_duplicate ON ecommerce.refunds USING btree (order_id) WHERE (duplicate_refund = true)",
+    "is_partial": true
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "refunds",
+    "indexname": "idx_refunds_early",
+    "indexdef": "CREATE INDEX idx_refunds_early ON ecommerce.refunds USING btree (order_id) WHERE (processed_before_cancel = true)",
+    "is_partial": true
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "refunds",
+    "indexname": "idx_refunds_order",
+    "indexdef": "CREATE INDEX idx_refunds_order ON ecommerce.refunds USING btree (order_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "refunds",
+    "indexname": "refunds_pkey",
+    "indexdef": "CREATE UNIQUE INDEX refunds_pkey ON ecommerce.refunds USING btree (refund_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "reviews",
+    "indexname": "idx_reviews_customer",
+    "indexdef": "CREATE INDEX idx_reviews_customer ON ecommerce.reviews USING btree (customer_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "reviews",
+    "indexname": "idx_reviews_fts",
+    "indexdef": "CREATE INDEX idx_reviews_fts ON ecommerce.reviews USING gin (to_tsvector('english'::regconfig, COALESCE(review_comment, ''::text)))",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "reviews",
+    "indexname": "idx_reviews_order",
+    "indexdef": "CREATE INDEX idx_reviews_order ON ecommerce.reviews USING btree (order_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "reviews",
+    "indexname": "idx_reviews_rating",
+    "indexdef": "CREATE INDEX idx_reviews_rating ON ecommerce.reviews USING btree (rating)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "reviews",
+    "indexname": "idx_reviews_sentiment",
+    "indexdef": "CREATE INDEX idx_reviews_sentiment ON ecommerce.reviews USING btree (sentiment)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "reviews",
+    "indexname": "idx_reviews_trgm",
+    "indexdef": "CREATE INDEX idx_reviews_trgm ON ecommerce.reviews USING gin (review_comment gin_trgm_ops)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "reviews",
+    "indexname": "reviews_pkey",
+    "indexdef": "CREATE UNIQUE INDEX reviews_pkey ON ecommerce.reviews USING btree (review_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "sellers",
+    "indexname": "idx_sellers_city",
+    "indexdef": "CREATE INDEX idx_sellers_city ON ecommerce.sellers USING btree (seller_city)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "sellers",
+    "indexname": "idx_sellers_rating",
+    "indexdef": "CREATE INDEX idx_sellers_rating ON ecommerce.sellers USING btree (seller_rating)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "sellers",
+    "indexname": "sellers_pkey",
+    "indexdef": "CREATE UNIQUE INDEX sellers_pkey ON ecommerce.sellers USING btree (seller_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "shipping",
+    "indexname": "idx_shipping_carrier",
+    "indexdef": "CREATE INDEX idx_shipping_carrier ON ecommerce.shipping USING btree (carrier)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "shipping",
+    "indexname": "idx_shipping_fee_err",
+    "indexdef": "CREATE INDEX idx_shipping_fee_err ON ecommerce.shipping USING btree (order_id) WHERE (fee_calculation_error = true)",
+    "is_partial": true
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "shipping",
+    "indexname": "idx_shipping_never",
+    "indexdef": "CREATE INDEX idx_shipping_never ON ecommerce.shipping USING btree (order_id) WHERE (shipping_status = 'never_shipped'::shipping_status_t)",
+    "is_partial": true
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "shipping",
+    "indexname": "idx_shipping_order",
+    "indexdef": "CREATE INDEX idx_shipping_order ON ecommerce.shipping USING btree (order_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "shipping",
+    "indexname": "idx_shipping_status",
+    "indexdef": "CREATE INDEX idx_shipping_status ON ecommerce.shipping USING btree (shipping_status)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ecommerce",
+    "tablename": "shipping",
+    "indexname": "shipping_pkey",
+    "indexdef": "CREATE UNIQUE INDEX shipping_pkey ON ecommerce.shipping USING btree (shipping_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "marketing",
+    "tablename": "campaign_attribution",
+    "indexname": "campaign_attribution_order_id_campaign_id_key",
+    "indexdef": "CREATE UNIQUE INDEX campaign_attribution_order_id_campaign_id_key ON marketing.campaign_attribution USING btree (order_id, campaign_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "marketing",
+    "tablename": "campaign_attribution",
+    "indexname": "campaign_attribution_pkey",
+    "indexdef": "CREATE UNIQUE INDEX campaign_attribution_pkey ON marketing.campaign_attribution USING btree (id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "marketing",
+    "tablename": "campaign_attribution",
+    "indexname": "idx_attr_campaign",
+    "indexdef": "CREATE INDEX idx_attr_campaign ON marketing.campaign_attribution USING btree (campaign_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "marketing",
+    "tablename": "campaign_attribution",
+    "indexname": "idx_attr_order",
+    "indexdef": "CREATE INDEX idx_attr_order ON marketing.campaign_attribution USING btree (order_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "marketing",
+    "tablename": "customer_interactions",
+    "indexname": "customer_interactions_pkey",
+    "indexdef": "CREATE UNIQUE INDEX customer_interactions_pkey ON marketing.customer_interactions USING btree (interaction_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "marketing",
+    "tablename": "customer_interactions",
+    "indexname": "idx_interact_campaign",
+    "indexdef": "CREATE INDEX idx_interact_campaign ON marketing.customer_interactions USING btree (campaign_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "marketing",
+    "tablename": "customer_interactions",
+    "indexname": "idx_interact_customer",
+    "indexdef": "CREATE INDEX idx_interact_customer ON marketing.customer_interactions USING btree (customer_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "marketing",
+    "tablename": "customer_interactions",
+    "indexname": "idx_interact_date",
+    "indexdef": "CREATE INDEX idx_interact_date ON marketing.customer_interactions USING btree (interaction_date)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "marketing",
+    "tablename": "leads_closed",
+    "indexname": "idx_leads_c_date",
+    "indexdef": "CREATE INDEX idx_leads_c_date ON marketing.leads_closed USING btree (won_date)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "marketing",
+    "tablename": "leads_closed",
+    "indexname": "idx_leads_c_seller",
+    "indexdef": "CREATE INDEX idx_leads_c_seller ON marketing.leads_closed USING btree (seller_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "marketing",
+    "tablename": "leads_closed",
+    "indexname": "leads_closed_pkey",
+    "indexdef": "CREATE UNIQUE INDEX leads_closed_pkey ON marketing.leads_closed USING btree (mql_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "marketing",
+    "tablename": "leads_qualified",
+    "indexname": "idx_leads_q_date",
+    "indexdef": "CREATE INDEX idx_leads_q_date ON marketing.leads_qualified USING btree (first_contact_date)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "marketing",
+    "tablename": "leads_qualified",
+    "indexname": "idx_leads_q_origin",
+    "indexdef": "CREATE INDEX idx_leads_q_origin ON marketing.leads_qualified USING btree (origin)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "marketing",
+    "tablename": "leads_qualified",
+    "indexname": "leads_qualified_pkey",
+    "indexdef": "CREATE UNIQUE INDEX leads_qualified_pkey ON marketing.leads_qualified USING btree (mql_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "marketing",
+    "tablename": "marketing_campaigns",
+    "indexname": "idx_campaigns_channel",
+    "indexdef": "CREATE INDEX idx_campaigns_channel ON marketing.marketing_campaigns USING btree (channel)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "marketing",
+    "tablename": "marketing_campaigns",
+    "indexname": "idx_campaigns_dates",
+    "indexdef": "CREATE INDEX idx_campaigns_dates ON marketing.marketing_campaigns USING btree (start_date, end_date)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "marketing",
+    "tablename": "marketing_campaigns",
+    "indexname": "marketing_campaigns_pkey",
+    "indexdef": "CREATE UNIQUE INDEX marketing_campaigns_pkey ON marketing.marketing_campaigns USING btree (campaign_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "marketing",
+    "tablename": "website_sessions",
+    "indexname": "idx_sessions_customer",
+    "indexdef": "CREATE INDEX idx_sessions_customer ON marketing.website_sessions USING btree (customer_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "marketing",
+    "tablename": "website_sessions",
+    "indexname": "idx_sessions_source",
+    "indexdef": "CREATE INDEX idx_sessions_source ON marketing.website_sessions USING btree (traffic_source)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "marketing",
+    "tablename": "website_sessions",
+    "indexname": "idx_sessions_start",
+    "indexdef": "CREATE INDEX idx_sessions_start ON marketing.website_sessions USING btree (session_start)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "marketing",
+    "tablename": "website_sessions",
+    "indexname": "website_sessions_pkey",
+    "indexdef": "CREATE UNIQUE INDEX website_sessions_pkey ON marketing.website_sessions USING btree (session_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ml_output",
+    "tablename": "chatbot_conversations",
+    "indexname": "chatbot_conversations_pkey",
+    "indexdef": "CREATE UNIQUE INDEX chatbot_conversations_pkey ON ml_output.chatbot_conversations USING btree (id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ml_output",
+    "tablename": "chatbot_conversations",
+    "indexname": "chatbot_conversations_session_id_turn_index_role_key",
+    "indexdef": "CREATE UNIQUE INDEX chatbot_conversations_session_id_turn_index_role_key ON ml_output.chatbot_conversations USING btree (session_id, turn_index, role)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ml_output",
+    "tablename": "chatbot_conversations",
+    "indexname": "idx_conv_created",
+    "indexdef": "CREATE INDEX idx_conv_created ON ml_output.chatbot_conversations USING btree (created_at)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ml_output",
+    "tablename": "chatbot_conversations",
+    "indexname": "idx_conv_session",
+    "indexdef": "CREATE INDEX idx_conv_session ON ml_output.chatbot_conversations USING btree (session_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ml_output",
+    "tablename": "chatbot_enums",
+    "indexname": "chatbot_enums_pkey",
+    "indexdef": "CREATE UNIQUE INDEX chatbot_enums_pkey ON ml_output.chatbot_enums USING btree (enum_name, enum_value)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ml_output",
+    "tablename": "chatbot_prompt_versions",
+    "indexname": "chatbot_prompt_versions_pkey",
+    "indexdef": "CREATE UNIQUE INDEX chatbot_prompt_versions_pkey ON ml_output.chatbot_prompt_versions USING btree (version_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ml_output",
+    "tablename": "chatbot_prompt_versions",
+    "indexname": "chatbot_prompt_versions_version_tag_key",
+    "indexdef": "CREATE UNIQUE INDEX chatbot_prompt_versions_version_tag_key ON ml_output.chatbot_prompt_versions USING btree (version_tag)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ml_output",
+    "tablename": "chatbot_prompt_versions",
+    "indexname": "idx_prompt_active",
+    "indexdef": "CREATE UNIQUE INDEX idx_prompt_active ON ml_output.chatbot_prompt_versions USING btree (is_active) WHERE (is_active = true)",
+    "is_partial": true
+  },
+  {
+    "schemaname": "ml_output",
+    "tablename": "chatbot_query_log",
+    "indexname": "chatbot_query_log_pkey",
+    "indexdef": "CREATE UNIQUE INDEX chatbot_query_log_pkey ON ml_output.chatbot_query_log USING btree (id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ml_output",
+    "tablename": "chatbot_query_log",
+    "indexname": "idx_qlog_created",
+    "indexdef": "CREATE INDEX idx_qlog_created ON ml_output.chatbot_query_log USING btree (created_at)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ml_output",
+    "tablename": "chatbot_query_log",
+    "indexname": "idx_qlog_error",
+    "indexdef": "CREATE INDEX idx_qlog_error ON ml_output.chatbot_query_log USING btree (created_at) WHERE (error_message IS NOT NULL)",
+    "is_partial": true
+  },
+  {
+    "schemaname": "ml_output",
+    "tablename": "chatbot_query_log",
+    "indexname": "idx_qlog_helpful",
+    "indexdef": "CREATE INDEX idx_qlog_helpful ON ml_output.chatbot_query_log USING btree (was_helpful)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ml_output",
+    "tablename": "chatbot_query_log",
+    "indexname": "idx_qlog_intent",
+    "indexdef": "CREATE INDEX idx_qlog_intent ON ml_output.chatbot_query_log USING btree (detected_intent)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ml_output",
+    "tablename": "chatbot_query_log",
+    "indexname": "idx_qlog_session",
+    "indexdef": "CREATE INDEX idx_qlog_session ON ml_output.chatbot_query_log USING btree (session_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ml_output",
+    "tablename": "mv_leakage_by_scenario",
+    "indexname": "idx_mv_scenario",
+    "indexdef": "CREATE UNIQUE INDEX idx_mv_scenario ON ml_output.mv_leakage_by_scenario USING btree (scenario)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ml_output",
+    "tablename": "mv_leakage_dashboard",
+    "indexname": "idx_mv_dashboard_flag",
+    "indexdef": "CREATE INDEX idx_mv_dashboard_flag ON ml_output.mv_leakage_dashboard USING btree (anomaly_flag)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ml_output",
+    "tablename": "mv_leakage_dashboard",
+    "indexname": "idx_mv_dashboard_month",
+    "indexdef": "CREATE INDEX idx_mv_dashboard_month ON ml_output.mv_leakage_dashboard USING btree (order_month)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ml_output",
+    "tablename": "mv_leakage_dashboard",
+    "indexname": "idx_mv_dashboard_order",
+    "indexdef": "CREATE UNIQUE INDEX idx_mv_dashboard_order ON ml_output.mv_leakage_dashboard USING btree (order_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ml_output",
+    "tablename": "mv_leakage_dashboard",
+    "indexname": "idx_mv_dashboard_tier",
+    "indexdef": "CREATE INDEX idx_mv_dashboard_tier ON ml_output.mv_leakage_dashboard USING btree (risk_tier)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ml_output",
+    "tablename": "mv_monthly_leakage",
+    "indexname": "idx_mv_monthly_month",
+    "indexdef": "CREATE UNIQUE INDEX idx_mv_monthly_month ON ml_output.mv_monthly_leakage USING btree (month)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ml_output",
+    "tablename": "mv_seller_risk",
+    "indexname": "idx_mv_seller_id",
+    "indexdef": "CREATE UNIQUE INDEX idx_mv_seller_id ON ml_output.mv_seller_risk USING btree (seller_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ml_output",
+    "tablename": "mv_seller_risk",
+    "indexname": "idx_mv_seller_leakage",
+    "indexdef": "CREATE INDEX idx_mv_seller_leakage ON ml_output.mv_seller_risk USING btree (leakage_rate_pct DESC)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ml_output",
+    "tablename": "order_anomaly_scores",
+    "indexname": "idx_scores_ensemble",
+    "indexdef": "CREATE INDEX idx_scores_ensemble ON ml_output.order_anomaly_scores USING btree (ensemble_score DESC)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ml_output",
+    "tablename": "order_anomaly_scores",
+    "indexname": "idx_scores_flag",
+    "indexdef": "CREATE INDEX idx_scores_flag ON ml_output.order_anomaly_scores USING btree (anomaly_flag)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ml_output",
+    "tablename": "order_anomaly_scores",
+    "indexname": "idx_scores_scenarios",
+    "indexdef": "CREATE INDEX idx_scores_scenarios ON ml_output.order_anomaly_scores USING gin (leakage_scenarios)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ml_output",
+    "tablename": "order_anomaly_scores",
+    "indexname": "idx_scores_tier",
+    "indexdef": "CREATE INDEX idx_scores_tier ON ml_output.order_anomaly_scores USING btree (risk_tier)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ml_output",
+    "tablename": "order_anomaly_scores",
+    "indexname": "order_anomaly_scores_pkey",
+    "indexdef": "CREATE UNIQUE INDEX order_anomaly_scores_pkey ON ml_output.order_anomaly_scores USING btree (order_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ml_output",
+    "tablename": "order_leakage_reasons",
+    "indexname": "idx_leakage_type",
+    "indexdef": "CREATE INDEX idx_leakage_type ON ml_output.order_leakage_reasons USING btree (leakage_type)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ml_output",
+    "tablename": "order_leakage_reasons",
+    "indexname": "order_leakage_reasons_pkey",
+    "indexdef": "CREATE UNIQUE INDEX order_leakage_reasons_pkey ON ml_output.order_leakage_reasons USING btree (order_id, leakage_type)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "ml_output",
+    "tablename": "schema_metadata",
+    "indexname": "schema_metadata_pkey",
+    "indexdef": "CREATE UNIQUE INDEX schema_metadata_pkey ON ml_output.schema_metadata USING btree (table_schema, table_name)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "rag",
+    "tablename": "business_embeddings",
+    "indexname": "business_embeddings_pkey",
+    "indexdef": "CREATE UNIQUE INDEX business_embeddings_pkey ON rag.business_embeddings USING btree (doc_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "rag",
+    "tablename": "document_versions",
+    "indexname": "document_versions_pkey",
+    "indexdef": "CREATE UNIQUE INDEX document_versions_pkey ON rag.document_versions USING btree (version_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "rag",
+    "tablename": "documents",
+    "indexname": "documents_pkey",
+    "indexdef": "CREATE UNIQUE INDEX documents_pkey ON rag.documents USING btree (doc_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "rag",
+    "tablename": "documents",
+    "indexname": "idx_docs_active",
+    "indexdef": "CREATE INDEX idx_docs_active ON rag.documents USING btree (is_active) WHERE (is_active = true)",
+    "is_partial": true
+  },
+  {
+    "schemaname": "rag",
+    "tablename": "documents",
+    "indexname": "idx_docs_metadata",
+    "indexdef": "CREATE INDEX idx_docs_metadata ON rag.documents USING gin (metadata)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "rag",
+    "tablename": "documents",
+    "indexname": "idx_docs_priority",
+    "indexdef": "CREATE INDEX idx_docs_priority ON rag.documents USING btree (priority DESC)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "rag",
+    "tablename": "documents",
+    "indexname": "idx_docs_source_type",
+    "indexdef": "CREATE INDEX idx_docs_source_type ON rag.documents USING btree (source_type)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "rag",
+    "tablename": "documents",
+    "indexname": "idx_docs_tsv",
+    "indexdef": "CREATE INDEX idx_docs_tsv ON rag.documents USING gin (content_tsv)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "rag",
+    "tablename": "metrics_embeddings",
+    "indexname": "metrics_embeddings_pkey",
+    "indexdef": "CREATE UNIQUE INDEX metrics_embeddings_pkey ON rag.metrics_embeddings USING btree (doc_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "rag",
+    "tablename": "retrieval_cache",
+    "indexname": "retrieval_cache_pkey",
+    "indexdef": "CREATE UNIQUE INDEX retrieval_cache_pkey ON rag.retrieval_cache USING btree (cache_key)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "rag",
+    "tablename": "retrieval_log",
+    "indexname": "retrieval_log_pkey",
+    "indexdef": "CREATE UNIQUE INDEX retrieval_log_pkey ON rag.retrieval_log USING btree (log_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "rag",
+    "tablename": "review_embeddings",
+    "indexname": "review_embeddings_pkey",
+    "indexdef": "CREATE UNIQUE INDEX review_embeddings_pkey ON rag.review_embeddings USING btree (doc_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "rag",
+    "tablename": "schema_embeddings",
+    "indexname": "schema_embeddings_pkey",
+    "indexdef": "CREATE UNIQUE INDEX schema_embeddings_pkey ON rag.schema_embeddings USING btree (doc_id)",
+    "is_partial": false
+  },
+  {
+    "schemaname": "rag",
+    "tablename": "sql_guard",
+    "indexname": "sql_guard_pkey",
+    "indexdef": "CREATE UNIQUE INDEX sql_guard_pkey ON rag.sql_guard USING btree (guard_id)",
+    "is_partial": false
+  }
+]

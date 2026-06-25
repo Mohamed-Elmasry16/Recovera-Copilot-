@@ -1,0 +1,200 @@
+[
+  {
+    "enum_schema": "public",
+    "enum_name": "chat_role_t",
+    "enum_values": [
+      "system",
+      "user",
+      "assistant",
+      "tool"
+    ]
+  },
+  {
+    "enum_schema": "public",
+    "enum_name": "churn_risk_t",
+    "enum_values": [
+      "High",
+      "Medium",
+      "Low"
+    ]
+  },
+  {
+    "enum_schema": "public",
+    "enum_name": "customer_segment_t",
+    "enum_values": [
+      "Low Value",
+      "Mid Value",
+      "High Value"
+    ]
+  },
+  {
+    "enum_schema": "public",
+    "enum_name": "leakage_scenario_t",
+    "enum_values": [
+      "delivered_no_payment",
+      "shipped_then_cancelled",
+      "incorrect_refund_on_delivery",
+      "duplicate_refund",
+      "payment_approved_never_shipped",
+      "logistics_exceeds_revenue",
+      "returned_product_kept",
+      "cod_unpaid_after_delivery",
+      "fake_delivery_success",
+      "high_discount_negative_profit",
+      "no_invoice_on_completion",
+      "partial_payment_only",
+      "refund_before_cancellation",
+      "inventory_mismatch",
+      "seller_paid_twice",
+      "shipping_failed_review_exists",
+      "review_contradicts_cancelled",
+      "wrong_shipping_fee",
+      "repeated_small_refunds",
+      "delayed_delivery_compensation",
+      "no_leakage",
+      "statistical_outlier",
+      "negative_profit_margin"
+    ]
+  },
+  {
+    "enum_schema": "public",
+    "enum_name": "order_status_t",
+    "enum_values": [
+      "delivered",
+      "canceled",
+      "shipped",
+      "processing",
+      "invoiced",
+      "unavailable"
+    ]
+  },
+  {
+    "enum_schema": "public",
+    "enum_name": "payment_status_t",
+    "enum_values": [
+      "approved",
+      "partial",
+      "unpaid",
+      "missing"
+    ]
+  },
+  {
+    "enum_schema": "public",
+    "enum_name": "payment_type_t",
+    "enum_values": [
+      "credit_card",
+      "debit_card",
+      "voucher",
+      "cash_on_delivery",
+      "unknown"
+    ]
+  },
+  {
+    "enum_schema": "public",
+    "enum_name": "rag_source_t",
+    "enum_values": [
+      "review",
+      "leakage_reason",
+      "schema_doc",
+      "business_rule",
+      "faq",
+      "report"
+    ]
+  },
+  {
+    "enum_schema": "public",
+    "enum_name": "refund_reason_t",
+    "enum_values": [
+      "incorrect_refund",
+      "return_request",
+      "early_refund",
+      "late_delivery_compensation",
+      "item_not_as_described",
+      "customer_request"
+    ]
+  },
+  {
+    "enum_schema": "public",
+    "enum_name": "risk_tier_t",
+    "enum_values": [
+      "Low",
+      "Medium",
+      "High",
+      "Critical"
+    ]
+  },
+  {
+    "enum_schema": "public",
+    "enum_name": "sentiment_t",
+    "enum_values": [
+      "positive",
+      "neutral",
+      "negative",
+      "mixed",
+      "unknown"
+    ]
+  },
+  {
+    "enum_schema": "public",
+    "enum_name": "shipping_status_t",
+    "enum_values": [
+      "delivered",
+      "in_transit",
+      "cancelled",
+      "failed",
+      "never_shipped",
+      "pending"
+    ]
+  },
+  {
+    "enum_schema": "rag",
+    "enum_name": "embedding_type_t",
+    "enum_values": [
+      "schema",
+      "business_rule",
+      "sql_template",
+      "review",
+      "metric",
+      "routing",
+      "glossary",
+      "lineage"
+    ]
+  },
+  {
+    "enum_schema": "rag",
+    "enum_name": "query_intent_t",
+    "enum_values": [
+      "simple_lookup",
+      "aggregation",
+      "anomaly_investigation",
+      "trend_analysis",
+      "sentiment_analysis",
+      "schema_discovery",
+      "kpi_definition",
+      "sql_generation"
+    ]
+  },
+  {
+    "enum_schema": "rag",
+    "enum_name": "rag_source_t",
+    "enum_values": [
+      "schema_doc",
+      "business_rule",
+      "leakage_scenario",
+      "sql_template",
+      "review",
+      "leakage_reason",
+      "kpi_glossary",
+      "join_graph",
+      "anti_pattern",
+      "routing_hint",
+      "enum_reference",
+      "generated_column",
+      "metric_definition",
+      "lineage_doc",
+      "anomaly_interpretation",
+      "summary_profile",
+      "temporal_context"
+    ]
+  }
+]
