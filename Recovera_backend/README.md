@@ -101,15 +101,6 @@ sequenceDiagram
 
 </details>
 
-### Safety gate coverage
-
-```mermaid
-xychart-beta
-    title "SQL pipeline guardrails"
-    x-axis ["SELECT/WITH", "No DML", "No DDL", "No Multi-Stmt", "Schema Check", "EXPLAIN", "Read Only", "Row Limit"]
-    y-axis "Gate active" 0 --> 1
-    bar [1, 1, 1, 1, 1, 1, 1, 1]
-```
 
 ### Question routing map
 
