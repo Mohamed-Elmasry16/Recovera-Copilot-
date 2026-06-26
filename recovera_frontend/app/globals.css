@@ -1950,6 +1950,9 @@ button { cursor: pointer; }
   --copilot-chart-primary: #2f74ff;
   --copilot-chart-success: #12c879;
   --copilot-chart-accent: #8f69ff;
+  --copilot-chart-danger: #ef4444;
+  --copilot-chart-warning: #f59e0b;
+  --copilot-chart-neutral: #6b7280;
   width: 100%;
   border: 1px solid var(--line);
   border-radius: 18px;
@@ -2003,6 +2006,15 @@ button { cursor: pointer; }
 .copilot-chart-legend .primary { color: var(--copilot-chart-primary); }
 .copilot-chart-legend .success { color: var(--copilot-chart-success); }
 .copilot-chart-legend .accent { color: var(--copilot-chart-accent); }
+.copilot-chart-legend .danger { color: var(--copilot-chart-danger); }
+.copilot-chart-legend .warning { color: var(--copilot-chart-warning); }
+.copilot-chart-legend .neutral { color: var(--copilot-chart-neutral); }
+.copilot-chart-legend .primary i { background: var(--copilot-chart-primary); }
+.copilot-chart-legend .success i { background: var(--copilot-chart-success); }
+.copilot-chart-legend .accent i { background: var(--copilot-chart-accent); }
+.copilot-chart-legend .danger i { background: var(--copilot-chart-danger); }
+.copilot-chart-legend .warning i { background: var(--copilot-chart-warning); }
+.copilot-chart-legend .neutral i { background: var(--copilot-chart-neutral); }
 .copilot-chart-shell {
   width: 100%;
   min-height: 220px;
