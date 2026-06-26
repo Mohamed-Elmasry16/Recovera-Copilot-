@@ -43,7 +43,7 @@ type CopilotChartData = {
   type?: string;
   title?: string;
   labels?: string[];
-  datasets?: Array<{ label?: string; data?: number[] }>;
+  datasets?: Array<{ label?: string; data?: number[]; tone?: string; borderColor?: string; backgroundColor?: string }>;
   values?: number[];
   data?: number[];
   rows?: Array<Record<string, unknown>>;
@@ -53,7 +53,7 @@ type NormalizedCopilotChart = {
   title: string;
   chartType: 'bar' | 'bar_vertical' | 'line' | 'area' | 'pie';
   labels: string[];
-  datasets: Array<{ label: string; key: string; data: number[]; tone: 'primary' | 'success' | 'accent' }>;
+  datasets: Array<{ label: string; key: string; data: number[]; tone: 'primary' | 'success' | 'accent' | 'danger' | 'warning' | 'neutral' }>;
 };
 
 type ChatMessage = {
@@ -1494,13 +1494,26 @@ function normalizeChartForRender(chartData: CopilotChartData, inheritedType?: st
   const chartType = resolveChartType(chartData.type || inheritedType);
   const labels = Array.isArray(chartData.labels) ? chartData.labels.map((label) => String(label)).filter(Boolean) : [];
   const datasetsSource = Array.isArray(chartData.datasets) ? chartData.datasets : [];
+  const validTones = ['primary', 'success', 'accent', 'danger', 'warning', 'neutral'] as const;
+  type ChartTone = typeof validTones[number];
+  const fallbackTones: ChartTone[] = ['primary', 'success', 'accent', 'warning', 'danger', 'neutral'];
   const normalizedDatasets = datasetsSource
-    .map((dataset, index) => ({
-      label: dataset.label || (index === 0 ? 'Total Revenue' : `Series ${index + 1}`),
-      key: `value_${index}`,
-      data: Array.isArray(dataset.data) ? dataset.data.map(Number).filter((value) => Number.isFinite(value)) : [],
-      tone: index === 0 ? 'primary' as const : index === 1 ? 'success' as const : 'accent' as const
-    }))
+    .map((dataset, index) => {
+      // Respect the backend's `tone` field when it's a recognized semantic tone.
+      // This ensures profit (success/green) and loss (danger/red) are colored
+      // correctly instead of being overwritten by index-based palette rotation.
+      const backendTone = (dataset as { tone?: string }).tone;
+      const tone: ChartTone =
+        backendTone && (validTones as readonly string[]).includes(backendTone)
+          ? (backendTone as ChartTone)
+          : fallbackTones[index % fallbackTones.length];
+      return {
+        label: dataset.label || (index === 0 ? 'Total Revenue' : `Series ${index + 1}`),
+        key: `value_${index}`,
+        data: Array.isArray(dataset.data) ? dataset.data.map(Number).filter((value) => Number.isFinite(value)) : [],
+        tone,
+      };
+    })
     .filter((dataset) => dataset.data.length > 0);
 
   if (labels.length > 0 && normalizedDatasets.length > 0) {
